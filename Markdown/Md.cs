@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-
-namespace Markdown
+﻿namespace Markdown
 {
 	public class Md
 	{
@@ -8,10 +6,5 @@ namespace Markdown
 		{
 			return markdown; //TODO
 		}
-	}
-
-	[TestFixture]
-	public class Md_ShouldRender
-	{
 	}
 }
