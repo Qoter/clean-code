@@ -1,6 +1,6 @@
 ﻿namespace Markdown
 {
-	public class Md
+    public class Md
 	{
 		public string RenderToHtml(string markdown)
 		{

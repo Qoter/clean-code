@@ -50,8 +50,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharHandler.cs" />
+    <Compile Include="EscapeHandler.cs" />
+    <Compile Include="HandlerCombiner.cs" />
+    <Compile Include="ISubstringHandler.cs" />
     <Compile Include="Md.cs" />
-    <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
