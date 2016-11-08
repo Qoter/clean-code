@@ -6,7 +6,8 @@ namespace Markdown
     {
         public string Handle(string str, ref int startIndex)
         {
-            throw new NotImplementedException();
+            startIndex++;
+            return str[startIndex++].ToString();
         }
 
         public bool CanHandle(string str, int startIndex)

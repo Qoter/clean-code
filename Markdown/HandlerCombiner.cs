@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace Markdown
 {
@@ -25,7 +26,7 @@ namespace Markdown
 
         public bool CanHandle(string str, int startIndex)
         {
-            return false;
+            throw new NotImplementedException();
         }
     }
 }
