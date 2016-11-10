@@ -58,10 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CharHandler_should.cs" />
-    <Compile Include="EscapeHandler_should.cs" />
     <Compile Include="Md_ShouldRender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExtensionsTests.cs" />
+    <Compile Include="SubstringReaders\CharReader_should.cs" />
+    <Compile Include="SubstringReaders\EmphasisReader_should.cs" />
+    <Compile Include="SubstringReaders\EscapeReader_should.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
