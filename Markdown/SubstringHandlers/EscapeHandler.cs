@@ -4,7 +4,8 @@
     {
         public string HandleSubstring(StringReader reader)
         {
-            return reader.Read(2)[1].ToString();
+            reader.Read(1); //Skip backslash
+            return reader.Read(1);
         }
 
         public bool CanHandle(StringReader reader)

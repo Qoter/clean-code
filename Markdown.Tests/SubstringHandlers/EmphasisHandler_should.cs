@@ -8,11 +8,12 @@ namespace Markdown.Tests.SubstringHandlers
     [TestFixture]
     public class EmphasisHandler_should
     {
-        [TestCase("_text_", ExpectedResult = "<em>text</em>")]
-        [TestCase("_a\\_b_", ExpectedResult = "<em>a_b</em>", Description = "Ignore escape symbols")]
-        [TestCase("_a_a_", ExpectedResult = "<em>a_a</em>", Description = "Ignore undercore inside word")]
-        [TestCase("_b a_a b_", ExpectedResult = "<em>b a_a b</em>", Description = "Ignore undercore inside word")]
-        [TestCase("_a _bc_", ExpectedResult = "<em>a _bc</em>", Description = "Ignore underscore after whitespace")]
+        [TestCase("_text_", ExpectedResult = "<em>text</em>", TestName = "Word inside underscore")]
+        [TestCase("_a\\_b_", ExpectedResult = "<em>a_b</em>", TestName = "Ignore escape symbols")]
+        [TestCase("_a_a_", ExpectedResult = "<em>a_a</em>", TestName = "Ignore underscore inside word")]
+        [TestCase("_b a_a b_", ExpectedResult = "<em>b a_a b</em>", TestName = "Ignore undercore inside word")]
+        [TestCase("_a _bc_", ExpectedResult = "<em>a _bc</em>", TestName = "Ignore underscore after whitespace")]
+        [TestCase("_abc", ExpectedResult = "_abc", TestName = "Not closed underscore")]
         public string ReadTextInsideUnderscore(string str)
         {
             var reader = new StringReader(str);
@@ -22,7 +23,7 @@ namespace Markdown.Tests.SubstringHandlers
         }
 
         [Test]
-        public void CanNotRead_UnderscoreWithWhiteSpace()
+        public void CanNotHandle_UnderscoreWithWhiteSpace()
         {
             var reader = new StringReader("_ hello_");
             var emphasisHandler = new EmphasisHandler();
@@ -31,7 +32,7 @@ namespace Markdown.Tests.SubstringHandlers
         }
 
         [Test]
-        public void CanNotReade_UnderscoreInsideWord()
+        public void CanNotHandle_UnderscoreInsideWord()
         {
             var reader = new StringReader("hello_world_");
             reader.Read(5);
@@ -41,7 +42,7 @@ namespace Markdown.Tests.SubstringHandlers
         }
 
         [Test]
-        public void ThrowsInvalidOperation_IfTryReadFromNotUnderscore()
+        public void ThrowsInvalidOperation_IfTryHandleWithNotUnderscore()
         {
             var reader = new StringReader("abc");
             var emphasisHandler = new EmphasisHandler();

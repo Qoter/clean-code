@@ -9,7 +9,7 @@ namespace Markdown.SubstringHandlers
         public EmphasisHandler()
         {
             innerTextHandler = new HandlerCombiner(new EscapeHandler(), new CharHandler());
-            innerTextHandler.SetStopRule(reader => reader.OnCharacter('_') && !reader.InsideWord && !reader.PreviousChar.IsWhiteSpace());
+            innerTextHandler.SetStopRule(IsEndOfEmphasis);
         }
 
         public string HandleSubstring(StringReader reader)
@@ -19,9 +19,17 @@ namespace Markdown.SubstringHandlers
 
             reader.Read("_".Length);
             var innerText = innerTextHandler.HandleSubstring(reader);
-            reader.Read("_".Length);
 
+            if (!IsEndOfEmphasis(reader))
+                return "_" + innerText;
+
+            reader.Read("_".Length);
             return Tag.Emphasis.Wrap(innerText);
+        }
+
+        private static bool IsEndOfEmphasis(StringReader reader)
+        {
+            return reader.OnCharacter('_') && !reader.InsideWord && !reader.PreviousChar.IsWhiteSpace();
         }
 
         public bool CanHandle(StringReader reader)
