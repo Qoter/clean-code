@@ -54,17 +54,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISubstringReader.cs" />
+    <Compile Include="ISubstringHandler.cs" />
     <Compile Include="Md.cs" />
     <Compile Include="NullableCharExtensions.cs" />
-    <Compile Include="ReaderCombiner.cs" />
+    <Compile Include="HandlerCombiner.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="SubstringReaders\CharReader.cs" />
-    <Compile Include="SubstringReaders\EmphasisReader.cs" />
-    <Compile Include="SubstringReaders\EscapeReader.cs" />
-    <Compile Include="SubstringReaders\StrongReader.cs" />
+    <Compile Include="SubstringHandlers\CharHandler.cs" />
+    <Compile Include="SubstringHandlers\EmphasisHandler.cs" />
+    <Compile Include="SubstringHandlers\EscapeHandler.cs" />
+    <Compile Include="SubstringHandlers\StrongHandler.cs" />
     <Compile Include="Tag.cs" />
-    <Compile Include="Tokenizer.cs" />
+    <Compile Include="StringReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
