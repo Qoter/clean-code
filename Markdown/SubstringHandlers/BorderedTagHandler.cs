@@ -8,8 +8,6 @@ namespace Markdown.SubstringHandlers
         protected abstract string Border { get; }
         protected abstract Tag Tag { get; }
 
-        protected abstract string HandleBeforeClosedBorder(StringReader reader);
-
         public string HandleSubstring(StringReader reader)
         {
             if (!CanHandle(reader))
@@ -31,6 +29,8 @@ namespace Markdown.SubstringHandlers
             var borderContext = reader.GetContext(Border);
             return !borderContext.InsidePrintable && !borderContext.NextChar.IsWhiteSpace();
         }
+
+        protected abstract string HandleBeforeClosedBorder(StringReader reader);
 
         protected bool IsOnClosedBorder(StringReader reader)
         {

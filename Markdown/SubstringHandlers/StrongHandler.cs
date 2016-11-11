@@ -14,6 +14,5 @@ namespace Markdown.SubstringHandlers
                 .HandleSubstring(reader)
                 .HandleWith(Handlers.Escape, Handlers.Emphasis, Handlers.Char);
         }
-
     }
 }

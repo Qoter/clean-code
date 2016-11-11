@@ -1,4 +1,4 @@
-﻿namespace Markdown
+﻿namespace Markdown.Infrastructure
 {
     public class Tag
     {
@@ -6,6 +6,7 @@
         public static readonly Tag Strong = new Tag("strong");
 
         private readonly string tag;
+
         private Tag(string tag)
         {
             this.tag = tag;

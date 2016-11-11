@@ -68,7 +68,7 @@
     <Compile Include="SubstringHandlers\ISubstringHandler.cs" />
     <Compile Include="SubstringHandlers\StringExtensionForHandlers.cs" />
     <Compile Include="SubstringHandlers\StrongHandler.cs" />
-    <Compile Include="Tag.cs" />
+    <Compile Include="Infrastructure\Tag.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

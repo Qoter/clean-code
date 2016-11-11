@@ -4,16 +4,18 @@ namespace Markdown.Infrastructure
 {
     public class StringReader
     {
-        public char? this[int index] => index < 0 || index >= stringForRead.Length ? null : (char?) stringForRead[index];
-        public int CurrentIndex { get; private set; }
-        public bool AtEndOfString => CurrentIndex >= stringForRead.Length;
-
         private readonly string stringForRead;
 
         public StringReader(string stringForRead)
         {
             this.stringForRead = stringForRead;
         }
+
+        public char? this[int index] => index < 0 || index >= stringForRead.Length ? null : (char?) stringForRead[index]
+            ;
+
+        public int CurrentIndex { get; private set; }
+        public bool AtEndOfString => CurrentIndex >= stringForRead.Length;
 
         public bool IsLocatedOn(string str)
         {
@@ -34,6 +36,5 @@ namespace Markdown.Infrastructure
 
             return new Context(this[CurrentIndex - 1], str, this[CurrentIndex + str.Length]);
         }
-
     }
 }

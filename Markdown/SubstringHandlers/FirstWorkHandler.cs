@@ -16,17 +16,6 @@ namespace Markdown.SubstringHandlers
             this.handlers = handlers;
         }
 
-        public static FirstWorkHandler CreateFrom(params ISubstringHandler[] handlers)
-        {
-            return new FirstWorkHandler(handlers);
-        }
-
-        public FirstWorkHandler WithStopRule(Func<StringReader, bool> predicate)
-        {
-            return new FirstWorkHandler(handlers) {isEndOfSubstring = predicate};
-
-        }
-
         public string HandleSubstring(StringReader reader)
         {
             if (!CanHandle(reader))
@@ -43,14 +32,24 @@ namespace Markdown.SubstringHandlers
             return substringBuilder.ToString();
         }
 
-        public string HandleString(string str)
-        {
-            return HandleSubstring(new StringReader(str));
-        }
-
         public bool CanHandle(StringReader reader)
         {
             return handlers.Any(handler => handler.CanHandle(reader));
+        }
+
+        public static FirstWorkHandler CreateFrom(params ISubstringHandler[] handlers)
+        {
+            return new FirstWorkHandler(handlers);
+        }
+
+        public FirstWorkHandler WithStopRule(Func<StringReader, bool> predicate)
+        {
+            return new FirstWorkHandler(handlers) {isEndOfSubstring = predicate};
+        }
+
+        public string HandleString(string str)
+        {
+            return HandleSubstring(new StringReader(str));
         }
 
         private bool IsEndOfSubstring(StringReader reader)
