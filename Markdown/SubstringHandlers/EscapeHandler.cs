@@ -10,7 +10,7 @@
 
         public bool CanHandle(StringReader reader)
         {
-            return reader.CurrentChar == '\\';
+            return reader.IsLocatedOn("\\");
         }
     }
 }

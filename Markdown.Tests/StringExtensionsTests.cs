@@ -12,33 +12,41 @@ namespace Markdown.Tests
         [TestCase("12", "123")]
         [TestCase("123", "12")]
         [TestCase("123", "123")]
-        public void MatchWith_WithoutStrartIndex_ReturnSameAsStartsWithResult(string str, string substring)
+        public void StartsWith_ZeroStartIndex_ReturnSameAsStartsWithResult(string str, string substring)
         {
-            str.MatchWith(substring).Should().Be(str.StartsWith(substring));
+            StringExtensions.StartsWith(str, substring, 0).Should().Be(str.StartsWith(substring));
         }
 
         [TestCase("01234", "23", 2)]
         [TestCase("01234", "4", 4)]
         [TestCase("01234", "", 3)]
-        public void MatchWith_RealyMatch_ReturnTrue(string str, string substrin, int startIndex)
+        public void StartsWith_RealyStart_ReturnTrue(string str, string substrin, int startIndex)
         {
-            str.MatchWith(substrin, startIndex).Should().BeTrue();
+            str.StartsWith(substrin, startIndex).Should().BeTrue();
         }
 
         [TestCase("01234", "123", 2)]
         [TestCase("01234", "123", 4)]
         [TestCase("01234", "123", 5)]
-        public void MatchWith_NotMatch_ReturnFalse(string str, string substrin, int startIndex)
+        public void StartsWith_NotStart_ReturnFalse(string str, string substrin, int startIndex)
         {
-            str.MatchWith(substrin, startIndex).Should().BeFalse();
+            str.StartsWith(substrin, startIndex).Should().BeFalse();
         }
 
         [Test]
-        public void MatchWith_StartIndexGreaterThenLength_ThrowArgumentOutOfRange()
+        public void StartsWith_IndexGreaterThenLengthAndEmptyString_ReturnTrue()
         {
-            Action tryMatch = () => "123".MatchWith("123", 4);
+            var searchResult = "123".StartsWith(string.Empty, 4);
 
-            tryMatch.ShouldThrow<ArgumentOutOfRangeException>();
+            searchResult.Should().BeTrue();
+        }
+
+        [Test]
+        public void StartsWith_IndexGreaterLengthAndStringNotEmpty_ReturnFalse()
+        {
+            var serachResult = "123".StartsWith("abc", 4);
+
+            serachResult.Should().BeFalse();
         }
     }
 }

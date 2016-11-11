@@ -1,15 +1,12 @@
 ﻿namespace Markdown.SubstringHandlers
 {
-    public class StrongHandler : ISubstringHandler
+    public class StrongHandler : BorderedTagHandler
     {
-        public string HandleSubstring(StringReader reader)
-        {
-            return null;
-        }
+        protected override string Border { get; } = "__";
+        protected override Tag Tag { get; } = Tag.Strong;
 
-        public bool CanHandle(StringReader reader)
+        public StrongHandler() : base(new ISubstringHandler[] {new EscapeHandler(), new EmphasisHandler(), new CharHandler()})
         {
-            return false;
         }
     }
 }

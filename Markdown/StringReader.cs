@@ -1,4 +1,5 @@
-﻿using System.Security.AccessControl;
+﻿using System;
+using System.Security.AccessControl;
 
 namespace Markdown
 {
@@ -12,6 +13,8 @@ namespace Markdown
 
         public int CurrentIndex { get; private set; }
 
+        public bool AtEndOfString => CurrentIndex >= stringForRead.Length;
+
         private readonly string stringForRead;
 
         public StringReader(string stringForRead)
@@ -19,15 +22,9 @@ namespace Markdown
             this.stringForRead = stringForRead;
         }
 
-
-        public bool AtEndOfString => CurrentIndex < 0 || CurrentIndex >= stringForRead.Length;
-
-        public bool InsideWord
-            => PreviousChar.IsDigitOrLetter() && !CurrentChar.IsWhiteSpace() && NextChar.IsDigitOrLetter();
-
-        public bool OnCharacter(char character)
+        public bool IsLocatedOn(string str)
         {
-            return CurrentChar == character;
+            return stringForRead.StartsWith(str, CurrentIndex);
         }
 
         public string Read(int charsCount)
@@ -36,5 +33,14 @@ namespace Markdown
             CurrentIndex = CurrentIndex + charsCount;
             return stringForRead.Substring(startIndex, CurrentIndex - startIndex);
         }
+
+        public Context GetContext(string str)
+        {
+            if (!IsLocatedOn(str))
+                throw new ArgumentException($"Reader is not located on {str}");
+
+            return new Context(PreviousChar, str, this[CurrentIndex + str.Length]);
+        }
+
     }
 }

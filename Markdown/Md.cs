@@ -1,4 +1,6 @@
-﻿namespace Markdown
+﻿using Markdown.SubstringHandlers;
+
+namespace Markdown
 {
     public class Md
 	{

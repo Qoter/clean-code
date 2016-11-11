@@ -4,27 +4,36 @@ using System.Text;
 
 namespace Markdown
 {
-    public class HandlerCombiner
+    public class FirsWorkHandler : ISubstringHandler
     {
         private readonly ISubstringHandler[] handlers;
 
         private Func<StringReader, bool> isEndOfSubstring;
 
-        public HandlerCombiner(params ISubstringHandler[] handlers)
+        public FirsWorkHandler(params ISubstringHandler[] handlers)
         {
             this.handlers = handlers;
         }
 
         public string HandleSubstring(StringReader reader)
         {
+            if (!CanHandle(reader))
+                throw new InvalidOperationException("No work readers");
+
             var substringBuilder = new StringBuilder();
             while (!reader.AtEndOfString && !isEndOfSubstring.Invoke(reader))
             {
-                var firstCanHandle = handlers.First(handler => handler.CanHandle(reader));
-                substringBuilder.Append(firstCanHandle.HandleSubstring(reader));
+                var firsWorkHandler = handlers.First(handler => handler.CanHandle(reader));
+                var substringPart = firsWorkHandler.HandleSubstring(reader);
+                substringBuilder.Append(substringPart);
             }
 
             return substringBuilder.ToString();
+        }
+
+        public bool CanHandle(StringReader reader)
+        {
+            return handlers.Any(handler => handler.CanHandle(reader));
         }
 
         public void SetStopRule(Func<StringReader, bool> predicate)

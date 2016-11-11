@@ -1,13 +1,17 @@
 ﻿using System;
+using static System.String;
 
 namespace Markdown
 {
     public static class StringExtensions
     {
-        public static bool MatchWith(this string str, string matchValue, int startIndex=0)
+        public static bool StartsWith(this string str, string searchString, int startIndex)
         {
-            var matchLength = Math.Min(matchValue.Length, str.Length - startIndex);
-            return str.Substring(startIndex, matchLength) == matchValue;
+            if (startIndex >= str.Length)
+                return searchString == Empty;
+
+            var matchLength = Math.Min(searchString.Length, str.Length - startIndex);
+            return str.Substring(startIndex, matchLength) == searchString;
         }
     }
 }

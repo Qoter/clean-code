@@ -54,11 +54,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context.cs" />
     <Compile Include="ISubstringHandler.cs" />
     <Compile Include="Md.cs" />
     <Compile Include="NullableCharExtensions.cs" />
-    <Compile Include="HandlerCombiner.cs" />
+    <Compile Include="FirsWorkHandler.cs" />
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="SubstringHandlers\BorderedTagHandler.cs" />
     <Compile Include="SubstringHandlers\CharHandler.cs" />
     <Compile Include="SubstringHandlers\EmphasisHandler.cs" />
     <Compile Include="SubstringHandlers\EscapeHandler.cs" />
