@@ -9,10 +9,9 @@ namespace Markdown.SubstringHandlers
 
         protected override string HandleBeforeClosedBorder(StringReader reader)
         {
-            var simpleTextHandler = new FirstWorkHandler(new EscapeHandler(), new CharHandler());
-            simpleTextHandler.SetStopRule(IsOnClosedBorder);
-
-            return simpleTextHandler.HandleSubstring(reader);
+            return Handlers.TextWithEscaped
+                .WithStopRule(IsOnClosedBorder)
+                .HandleSubstring(reader);
         }
     }
 }

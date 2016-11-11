@@ -23,7 +23,6 @@ namespace Markdown.Tests.SubstringHandlers
         }
 
         [TestCase("__a _bc_ d__", ExpectedResult = "<strong>a <em>bc</em> d</strong>")]
-        [TestCase("__hello _world__", ExpectedResult = "1")]
         public string HandlerTextInsideDoubleUderscore_WithUnderscoreInside(string str)
         {
             var reader = new StringReader(str);

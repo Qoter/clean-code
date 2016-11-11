@@ -64,7 +64,9 @@
     <Compile Include="SubstringHandlers\EmphasisHandler.cs" />
     <Compile Include="SubstringHandlers\EscapeHandler.cs" />
     <Compile Include="SubstringHandlers\FirstWorkHandler.cs" />
+    <Compile Include="SubstringHandlers\Handlers.cs" />
     <Compile Include="SubstringHandlers\ISubstringHandler.cs" />
+    <Compile Include="SubstringHandlers\StringExtensionForHandlers.cs" />
     <Compile Include="SubstringHandlers\StrongHandler.cs" />
     <Compile Include="Tag.cs" />
   </ItemGroup>

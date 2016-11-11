@@ -16,6 +16,17 @@ namespace Markdown.SubstringHandlers
             this.handlers = handlers;
         }
 
+        public static FirstWorkHandler CreateFrom(params ISubstringHandler[] handlers)
+        {
+            return new FirstWorkHandler(handlers);
+        }
+
+        public FirstWorkHandler WithStopRule(Func<StringReader, bool> predicate)
+        {
+            return new FirstWorkHandler(handlers) {isEndOfSubstring = predicate};
+
+        }
+
         public string HandleSubstring(StringReader reader)
         {
             if (!CanHandle(reader))
@@ -40,11 +51,6 @@ namespace Markdown.SubstringHandlers
         public bool CanHandle(StringReader reader)
         {
             return handlers.Any(handler => handler.CanHandle(reader));
-        }
-
-        public void SetStopRule(Func<StringReader, bool> predicate)
-        {
-            isEndOfSubstring = predicate;
         }
 
         private bool IsEndOfSubstring(StringReader reader)

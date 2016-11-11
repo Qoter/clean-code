@@ -7,8 +7,8 @@ namespace Markdown
 	{
 		public string RenderToHtml(string markdown)
 		{
-            var mdReader = new FirstWorkHandler(new EscapeHandler(), new StrongHandler(), new EmphasisHandler(), new CharHandler());
-		    return mdReader.HandleSubstring(new StringReader(markdown));
+		    return FirstWorkHandler.CreateFrom(Handlers.Escape, Handlers.Strong, Handlers.Emphasis, Handlers.Char)
+                .HandleString(markdown);
 		}
 	}
 }
