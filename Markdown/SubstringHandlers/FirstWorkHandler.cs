@@ -37,14 +37,14 @@ namespace Markdown.SubstringHandlers
             return handlers.Any(handler => handler.CanHandle(reader));
         }
 
-        private bool IsEndOfSubstring(StringReader reader)
-        {
-            return isEndOfSubstring?.Invoke(reader) ?? false;
-        }
-
         public void SetStopRule(Func<StringReader, bool> predicate)
         {
             isEndOfSubstring = predicate;
+        }
+
+        private bool IsEndOfSubstring(StringReader reader)
+        {
+            return isEndOfSubstring?.Invoke(reader) ?? false;
         }
     }
 }

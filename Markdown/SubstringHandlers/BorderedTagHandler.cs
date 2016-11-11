@@ -8,20 +8,7 @@ namespace Markdown.SubstringHandlers
         protected abstract string Border { get; }
         protected abstract Tag Tag { get; }
 
-        private readonly FirstWorkHandler simpleTextHandler;
-
-        private readonly ISubstringHandler innerHandler;
-
-        protected BorderedTagHandler(ISubstringHandler innerHandler) : this()
-        {
-            this.innerHandler = innerHandler;
-        }
-
-        protected BorderedTagHandler()
-        {
-            simpleTextHandler = new FirstWorkHandler(new EscapeHandler(), new CharHandler());
-            simpleTextHandler.SetStopRule(IsOnClosedBorder);
-        }
+        protected abstract string HandleBeforeClosedBorder(StringReader reader);
 
         public string HandleSubstring(StringReader reader)
         {
@@ -29,22 +16,11 @@ namespace Markdown.SubstringHandlers
                 throw new InvalidOperationException("Can't read emphasis substring");
 
             SkipBorder(reader);
-
-            var innerText = simpleTextHandler.HandleSubstring(reader);
-            innerText = HandlerInnerText(innerText);
+            var innerText = HandleBeforeClosedBorder(reader);
 
             return TrySkipClosedBorder(reader)
                 ? Tag.Wrap(innerText)
                 : Border + innerText;
-        }
-
-        private string HandlerInnerText(string innerText)
-        {
-            if (innerHandler == null)
-                return innerText;
-
-            var handler = new FirstWorkHandler(new EscapeHandler(), innerHandler, new CharHandler());
-            return handler.HandleSubstring(new StringReader(innerText));
         }
 
         public bool CanHandle(StringReader reader)
@@ -56,7 +32,7 @@ namespace Markdown.SubstringHandlers
             return !borderContext.InsidePrintable && !borderContext.NextChar.IsWhiteSpace();
         }
 
-        private bool IsOnClosedBorder(StringReader reader)
+        protected bool IsOnClosedBorder(StringReader reader)
         {
             if (!reader.IsLocatedOn(Border))
                 return false;
