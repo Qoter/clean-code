@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 using Markdown.Infrastructure;
 
 namespace Markdown.SubstringHandlers
@@ -10,11 +8,19 @@ namespace Markdown.SubstringHandlers
         protected abstract string Border { get; }
         protected abstract Tag Tag { get; }
 
-        private readonly ISubstringHandler[] innerHandlers;
+        private readonly FirstWorkHandler simpleTextHandler;
 
-        protected BorderedTagHandler(params ISubstringHandler[] innerHandlers)
+        private readonly ISubstringHandler innerHandler;
+
+        protected BorderedTagHandler(ISubstringHandler innerHandler) : this()
         {
-            this.innerHandlers = innerHandlers;
+            this.innerHandler = innerHandler;
+        }
+
+        protected BorderedTagHandler()
+        {
+            simpleTextHandler = new FirstWorkHandler(new EscapeHandler(), new CharHandler());
+            simpleTextHandler.SetStopRule(IsOnClosedBorder);
         }
 
         public string HandleSubstring(StringReader reader)
@@ -24,11 +30,7 @@ namespace Markdown.SubstringHandlers
 
             SkipBorder(reader);
 
-            var handler2 = new FirstWorkHandler(new EscapeHandler(), new CharHandler());
-            handler2.SetStopRule(IsOnClosedBorder);
-
-            var innerText = handler2.HandleSubstring(reader);
-
+            var innerText = simpleTextHandler.HandleSubstring(reader);
             innerText = HandlerInnerText(innerText);
 
             return TrySkipClosedBorder(reader)
@@ -38,20 +40,11 @@ namespace Markdown.SubstringHandlers
 
         private string HandlerInnerText(string innerText)
         {
-            if (innerHandlers.Length == 0)
+            if (innerHandler == null)
                 return innerText;
 
-            var handlers = new[] {new EscapeHandler(), innerHandlers.First(), new CharHandler()};
-            var reader = new StringReader(innerText);
-            var res = new StringBuilder();
-
-            while (!reader.AtEndOfString)
-            {
-                var h = handlers.First(he => he.CanHandle(reader));
-                res.Append(h.HandleSubstring(reader));
-            }
-
-            return res.ToString();
+            var handler = new FirstWorkHandler(new EscapeHandler(), innerHandler, new CharHandler());
+            return handler.HandleSubstring(new StringReader(innerText));
         }
 
         public bool CanHandle(StringReader reader)
@@ -60,7 +53,7 @@ namespace Markdown.SubstringHandlers
                 return false;
 
             var borderContext = reader.GetContext(Border);
-            return !borderContext.InsideWordOrDigit && !borderContext.NextChar.IsWhiteSpace();
+            return !borderContext.InsidePrintable && !borderContext.NextChar.IsWhiteSpace();
         }
 
         private bool IsOnClosedBorder(StringReader reader)
@@ -69,7 +62,7 @@ namespace Markdown.SubstringHandlers
                 return false;
 
             var borderContext = reader.GetContext(Border);
-            return !borderContext.InsideWordOrDigit && !borderContext.PreviousChar.IsWhiteSpace();
+            return !borderContext.InsidePrintable && !borderContext.PreviousChar.IsWhiteSpace();
         }
 
         private void SkipBorder(StringReader reader)

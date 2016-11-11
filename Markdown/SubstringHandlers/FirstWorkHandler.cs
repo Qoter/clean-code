@@ -22,7 +22,7 @@ namespace Markdown.SubstringHandlers
                 throw new InvalidOperationException("No work readers");
 
             var substringBuilder = new StringBuilder();
-            while (!reader.AtEndOfString && !isEndOfSubstring.Invoke(reader))
+            while (!reader.AtEndOfString && !IsEndOfSubstring(reader))
             {
                 var firsWorkHandler = handlers.First(handler => handler.CanHandle(reader));
                 var substringPart = firsWorkHandler.HandleSubstring(reader);
@@ -35,6 +35,11 @@ namespace Markdown.SubstringHandlers
         public bool CanHandle(StringReader reader)
         {
             return handlers.Any(handler => handler.CanHandle(reader));
+        }
+
+        private bool IsEndOfSubstring(StringReader reader)
+        {
+            return isEndOfSubstring?.Invoke(reader) ?? false;
         }
 
         public void SetStopRule(Func<StringReader, bool> predicate)
