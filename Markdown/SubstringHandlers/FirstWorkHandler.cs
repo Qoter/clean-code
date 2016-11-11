@@ -32,6 +32,11 @@ namespace Markdown.SubstringHandlers
             return substringBuilder.ToString();
         }
 
+        public string HandleString(string str)
+        {
+            return HandleSubstring(new StringReader(str));
+        }
+
         public bool CanHandle(StringReader reader)
         {
             return handlers.Any(handler => handler.CanHandle(reader));

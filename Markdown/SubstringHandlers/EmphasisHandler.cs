@@ -1,5 +1,4 @@
-﻿using System;
-using Markdown.Infrastructure;
+﻿using Markdown.Infrastructure;
 
 namespace Markdown.SubstringHandlers
 {
