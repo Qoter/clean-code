@@ -1,9 +1,8 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Markdown.Infrastructure;
 using NUnit.Framework;
 
-namespace Markdown.Tests
+namespace Markdown.Tests.Infrastructure
 {
     public class StringExtensionsTests
     {

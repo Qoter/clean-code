@@ -15,6 +15,6 @@ namespace Markdown.Infrastructure
             NextChar = nextChar;
         }
 
-        public bool InsideWordOrDigit => PreviousChar.IsDigitOrLetter() && !String.Any(char.IsWhiteSpace) && NextChar.IsDigitOrLetter();
+        public bool InsideWordOrDigit => PreviousChar.IsPrintable() && !String.Any(char.IsWhiteSpace) && NextChar.IsPrintable();
     }
 }

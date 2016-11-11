@@ -5,13 +5,13 @@ using Markdown.Infrastructure;
 
 namespace Markdown.SubstringHandlers
 {
-    public class FirsWorkHandler : ISubstringHandler
+    public class FirstWorkHandler : ISubstringHandler
     {
         private readonly ISubstringHandler[] handlers;
 
         private Func<StringReader, bool> isEndOfSubstring;
 
-        public FirsWorkHandler(params ISubstringHandler[] handlers)
+        public FirstWorkHandler(params ISubstringHandler[] handlers)
         {
             this.handlers = handlers;
         }

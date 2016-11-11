@@ -1,4 +1,5 @@
-﻿using Markdown.SubstringHandlers;
+﻿using Markdown.Infrastructure;
+using Markdown.SubstringHandlers;
 
 namespace Markdown
 {
@@ -6,7 +7,8 @@ namespace Markdown
 	{
 		public string RenderToHtml(string markdown)
 		{
-		    return null;
+            var mdReader = new FirstWorkHandler(new EscapeHandler(), new StrongHandler(), new EscapeHandler(), new CharHandler());
+		    return mdReader.HandleSubstring(new StringReader(markdown));
 		}
 	}
 }

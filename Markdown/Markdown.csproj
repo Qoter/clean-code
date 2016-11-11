@@ -63,7 +63,7 @@
     <Compile Include="SubstringHandlers\CharHandler.cs" />
     <Compile Include="SubstringHandlers\EmphasisHandler.cs" />
     <Compile Include="SubstringHandlers\EscapeHandler.cs" />
-    <Compile Include="SubstringHandlers\FirsWorkHandler.cs" />
+    <Compile Include="SubstringHandlers\FirstWorkHandler.cs" />
     <Compile Include="SubstringHandlers\ISubstringHandler.cs" />
     <Compile Include="SubstringHandlers\StrongHandler.cs" />
     <Compile Include="Tag.cs" />
