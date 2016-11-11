@@ -4,7 +4,7 @@ namespace Markdown
 {
     public class StringReader
     {
-        public char? this[int index] => index >= stringForRead.Length ? null : (char?) stringForRead[index];
+        public char? this[int index] => index < 0 || index >= stringForRead.Length ? null : (char?) stringForRead[index];
 
         public char? PreviousChar => this[CurrentIndex - 1];
         public char? CurrentChar => this[CurrentIndex];
@@ -20,7 +20,7 @@ namespace Markdown
         }
 
 
-        public bool AtEndOfString => CurrentIndex >= stringForRead.Length;
+        public bool AtEndOfString => CurrentIndex < 0 || CurrentIndex >= stringForRead.Length;
 
         public bool InsideWord
             => PreviousChar.IsDigitOrLetter() && !CurrentChar.IsWhiteSpace() && NextChar.IsDigitOrLetter();
