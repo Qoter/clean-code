@@ -54,19 +54,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context.cs" />
-    <Compile Include="ISubstringHandler.cs" />
+    <Compile Include="Infrastructure\Context.cs" />
+    <Compile Include="Infrastructure\NullableCharExtensions.cs" />
+    <Compile Include="Infrastructure\StringExtensions.cs" />
+    <Compile Include="Infrastructure\StringReader.cs" />
     <Compile Include="Md.cs" />
-    <Compile Include="NullableCharExtensions.cs" />
-    <Compile Include="FirsWorkHandler.cs" />
-    <Compile Include="StringExtensions.cs" />
     <Compile Include="SubstringHandlers\BorderedTagHandler.cs" />
     <Compile Include="SubstringHandlers\CharHandler.cs" />
     <Compile Include="SubstringHandlers\EmphasisHandler.cs" />
     <Compile Include="SubstringHandlers\EscapeHandler.cs" />
+    <Compile Include="SubstringHandlers\FirsWorkHandler.cs" />
+    <Compile Include="SubstringHandlers\ISubstringHandler.cs" />
     <Compile Include="SubstringHandlers\StrongHandler.cs" />
     <Compile Include="Tag.cs" />
-    <Compile Include="StringReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

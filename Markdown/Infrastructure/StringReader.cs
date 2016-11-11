@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Security.AccessControl;
 
-namespace Markdown
+namespace Markdown.Infrastructure
 {
     public class StringReader
     {
         public char? this[int index] => index < 0 || index >= stringForRead.Length ? null : (char?) stringForRead[index];
-
-        public char? PreviousChar => this[CurrentIndex - 1];
-        public char? CurrentChar => this[CurrentIndex];
-        public char? NextChar => this[CurrentIndex + 1];
 
         public int CurrentIndex { get; private set; }
 
@@ -39,7 +34,7 @@ namespace Markdown
             if (!IsLocatedOn(str))
                 throw new ArgumentException($"Reader is not located on {str}");
 
-            return new Context(PreviousChar, str, this[CurrentIndex + str.Length]);
+            return new Context(this[CurrentIndex - 1], str, this[CurrentIndex + str.Length]);
         }
 
     }

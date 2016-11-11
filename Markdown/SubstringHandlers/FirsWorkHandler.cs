@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Markdown.Infrastructure;
 
-namespace Markdown
+namespace Markdown.SubstringHandlers
 {
     public class FirsWorkHandler : ISubstringHandler
     {

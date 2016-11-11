@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Markdown.Infrastructure;
 using Markdown.SubstringHandlers;
 using NUnit.Framework;
 
@@ -22,7 +23,7 @@ namespace Markdown.Tests.SubstringHandlers
         {
             var reader = new StringReader(str);
 
-            var currentChar = reader.CurrentChar.ToString();
+            var currentChar = reader[reader.CurrentIndex].ToString();
             var readedChar = new CharHandler().HandleSubstring(reader);
 
             readedChar.Should().Be(currentChar);

@@ -1,3 +1,5 @@
+using Markdown.Infrastructure;
+
 namespace Markdown.SubstringHandlers
 {
     public class CharHandler : ISubstringHandler

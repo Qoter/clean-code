@@ -1,4 +1,5 @@
-﻿using Markdown.SubstringHandlers;
+﻿using Markdown.Infrastructure;
+using Markdown.SubstringHandlers;
 using NUnit.Framework;
 
 namespace Markdown.Tests.SubstringHandlers

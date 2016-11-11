@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Markdown
+namespace Markdown.Infrastructure
 {
     public class Context
     {

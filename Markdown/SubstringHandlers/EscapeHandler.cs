@@ -1,4 +1,6 @@
-﻿namespace Markdown.SubstringHandlers
+﻿using Markdown.Infrastructure;
+
+namespace Markdown.SubstringHandlers
 {
     public class EscapeHandler : ISubstringHandler
     {

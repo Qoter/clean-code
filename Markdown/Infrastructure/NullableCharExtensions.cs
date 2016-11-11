@@ -1,4 +1,4 @@
-﻿namespace Markdown
+﻿namespace Markdown.Infrastructure
 {
     public static class NullableCharExtensions
     {

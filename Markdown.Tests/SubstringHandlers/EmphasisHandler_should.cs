@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions;
+using Markdown.Infrastructure;
 using Markdown.SubstringHandlers;
 using NUnit.Framework;
 

@@ -1,4 +1,6 @@
-﻿namespace Markdown
+﻿using Markdown.Infrastructure;
+
+namespace Markdown.SubstringHandlers
 {
     public interface ISubstringHandler
     {
