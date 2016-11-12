@@ -1,4 +1,7 @@
-﻿using Markdown.SubstringHandlers;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Markdown.SubstringHandlers;
 
 namespace Markdown
 {
@@ -8,6 +11,11 @@ namespace Markdown
         {
             var markdownHandler = FirstWorkHandler.CreateFrom(Handlers.Escape, Handlers.Strong, Handlers.Emphasis, Handlers.Char);
             return markdownLine.HandleWith(markdownHandler);
+        }
+
+        public static IEnumerable<string> RenderAllLinesToHtml(IEnumerable<string> markdownLines)
+        {
+            return markdownLines.Select(RenderLineToHtml);
         }
     }
 }
