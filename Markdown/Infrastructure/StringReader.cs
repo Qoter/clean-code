@@ -11,10 +11,9 @@ namespace Markdown.Infrastructure
             this.stringForRead = stringForRead;
         }
 
-        public char? this[int index] => index < 0 || index >= stringForRead.Length ? null : (char?) stringForRead[index]
-            ;
+        private char? this[int index] => index < 0 || index >= stringForRead.Length ? null : (char?) stringForRead[index];
 
-        public int CurrentIndex { get; private set; }
+        private int CurrentIndex { get; set; }
         public bool AtEndOfString => CurrentIndex >= stringForRead.Length;
 
         public bool IsLocatedOn(string str)

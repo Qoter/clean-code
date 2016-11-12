@@ -60,44 +60,5 @@ namespace Markdown.Tests
         {
             return Md.RenderLineToHtml(str);
         }
-
-        [Test]
-        public void RenderForLinearTime()
-        {
-            const int textLength = 50000;
-            const int factor = 100;
-            var shortText = GenerateRandomMarkdownString(textLength);
-            var longText = string.Join("", Enumerable.Repeat(shortText, factor));
-
-            var timeOnShort = TimeIt(() => Md.RenderLineToHtml(shortText));
-            var timeOnLong = TimeIt(() => Md.RenderLineToHtml(longText));
-
-            Console.WriteLine($"On long text: {timeOnLong}ms");
-            Console.WriteLine($"On short text: {timeOnShort}ms");
-            Console.WriteLine($"Time factor: {(double)timeOnLong / timeOnShort}");
-            Console.WriteLine($"Input size factor: {factor}");
-
-            ((double) timeOnLong/timeOnShort).Should().BeLessOrEqualTo(factor + 2);
-        }
-
-        public long TimeIt(Action act)
-        {
-            act.Invoke();
-            act.Invoke();
-            act.Invoke();
-            var sw = new Stopwatch();
-            sw.Start();
-            for (var i = 0; i < 10; i++)
-                act.Invoke();
-            sw.Stop();
-            return sw.ElapsedMilliseconds / 10;
-        }
-
-        public string GenerateRandomMarkdownString(int length, int seed=0)
-        {
-            var symbols = new[] {'_', '_', 'a', 'b', 'c', 'd', 'e', ' '};
-            var random = new Random(seed);
-            return string.Join("", Enumerable.Range(0, length).Select(_ => symbols[random.Next(symbols.Length)]));
-        }
     }
 }

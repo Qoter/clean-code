@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using FluentAssertions;
 using Markdown.Infrastructure;
 using Markdown.SubstringHandlers;
 using NUnit.Framework;
@@ -18,15 +20,14 @@ namespace Markdown.Tests.SubstringHandlers
         }
 
         [TestCase("012")]
-        [TestCase("_12")]
-        public void ReturnCurrentChar(string str)
+        [TestCase("_12\\__")]
+        public void ReadAllCharByChar(string str)
         {
             var reader = new StringReader(str);
+            var charHandler = new CharHandler();
+            var symbols = Enumerable.Range(0, str.Length).Select(i => charHandler.HandleSubstring(reader));
 
-            var currentChar = reader[reader.CurrentIndex].ToString();
-            var readedChar = new CharHandler().HandleSubstring(reader);
-
-            readedChar.Should().Be(currentChar);
+            string.Join("", symbols).Should().Be(str);
         }
     }
 }
