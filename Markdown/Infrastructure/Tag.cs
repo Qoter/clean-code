@@ -4,6 +4,7 @@
     {
         public static readonly Tag Emphasis = new Tag("em");
         public static readonly Tag Strong = new Tag("strong");
+        public static readonly Tag Paragraph = new Tag("p");
 
         private readonly string tag;
 

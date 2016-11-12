@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Markdown.Infrastructure;
 using Markdown.SubstringHandlers;
 
 namespace Markdown
@@ -10,7 +11,7 @@ namespace Markdown
         public static string RenderLineToHtml(string markdownLine)
         {
             var markdownHandler = FirstWorkHandler.CreateFrom(Handlers.Escape, Handlers.Strong, Handlers.Emphasis, Handlers.Char);
-            return markdownLine.HandleWith(markdownHandler);
+            return Tag.Paragraph.Wrap(markdownLine.HandleWith(markdownHandler));
         }
 
         public static IEnumerable<string> RenderAllLinesToHtml(IEnumerable<string> markdownLines)
