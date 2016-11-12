@@ -5,27 +5,25 @@ namespace Markdown.Infrastructure
     public class StringReader
     {
         private readonly string stringForRead;
+        private int currentIndex;
 
         public StringReader(string stringForRead)
         {
             this.stringForRead = stringForRead;
         }
 
-        private char? this[int index] => index < 0 || index >= stringForRead.Length ? null : (char?) stringForRead[index];
-
-        private int CurrentIndex { get; set; }
-        public bool AtEndOfString => CurrentIndex >= stringForRead.Length;
+        public bool AtEndOfString => currentIndex >= stringForRead.Length;
 
         public bool IsLocatedOn(string str)
         {
-            return stringForRead.StartsWith(str, CurrentIndex);
+            return stringForRead.StartsWith(str, currentIndex);
         }
 
         public string Read(int charsCount)
         {
-            var startIndex = CurrentIndex;
-            CurrentIndex = CurrentIndex + charsCount;
-            return stringForRead.Substring(startIndex, CurrentIndex - startIndex);
+            var startIndex = currentIndex;
+            currentIndex = currentIndex + charsCount;
+            return stringForRead.Substring(startIndex, currentIndex - startIndex);
         }
 
         public Context GetContext(string str)
@@ -33,7 +31,14 @@ namespace Markdown.Infrastructure
             if (!IsLocatedOn(str))
                 throw new ArgumentException($"Reader is not located on {str}");
 
-            return new Context(this[CurrentIndex - 1], str, this[CurrentIndex + str.Length]);
+            return new Context(GetCharOn(currentIndex - 1), str, GetCharOn(currentIndex + str.Length));
+        }
+
+        private char? GetCharOn(int index)
+        {
+            if (index < 0 || index >= stringForRead.Length)
+                return null;
+            return stringForRead[index];
         }
     }
 }

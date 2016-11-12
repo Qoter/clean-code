@@ -11,6 +11,7 @@ namespace Markdown.Tests.SubstringHandlers
     {
         [TestCase("123")]
         [TestCase("__")]
+        [TestCase("abc")]
         public void CanHandle_Always(string str)
         {
             var reader = new StringReader(str);
@@ -21,6 +22,7 @@ namespace Markdown.Tests.SubstringHandlers
 
         [TestCase("012")]
         [TestCase("_12\\__")]
+        [TestCase("abcde_byyy")]
         public void ReadAllCharByChar(string str)
         {
             var reader = new StringReader(str);
