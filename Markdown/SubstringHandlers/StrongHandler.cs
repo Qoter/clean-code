@@ -2,21 +2,15 @@
 
 namespace Markdown.SubstringHandlers
 {
-    public class StrongHandler : BorderedTagHandler
+    public class StrongHandler : BorderedHandler
     {
         protected override string Border { get; } = "__";
 
-        protected override string HandleBeforeClosedBorder(StringReader reader)
+        protected override string ProcessInnerText(string innerText)
         {
-            return Handlers.TextWithEscaped
-                .WithStopRule(IsOnClosedBorder)
-                .HandleSubstring(reader)
-                .HandleWith(Handlers.Escape, Handlers.Emphasis, Handlers.Char);
-        }
-
-        protected override string WrapIntoTag(string str)
-        {
-            return Tag.Strong.Wrap(str);
+            var processedInner = new FirstWorkHandler(Handlers.Escape, Handlers.Emphasis, Handlers.Char)
+                .HandleUntil(r => r.AtEndOfString, new StringReader(innerText));
+            return Tag.Strong.Wrap(processedInner);
         }
     }
 }

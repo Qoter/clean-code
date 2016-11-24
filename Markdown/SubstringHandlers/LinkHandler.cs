@@ -1,23 +1,25 @@
-﻿using Markdown.Infrastructure;
+﻿using System;
+using Markdown.Infrastructure;
 
 namespace Markdown.SubstringHandlers
 {
-    public class LinkHandler : BorderedTagHandler
+    public class LinkHandler : BorderedHandler
     {
         protected override string Border { get; } = "[";
-        protected override string HandleBeforeClosedBorder(StringReader reader)
+        protected string HandleBeforeClosedBorder(StringReader reader)
         {
-            var title = Handlers.TextWithStorngAndEmphasis.WithStopRule(r => r.IsLocatedOn("]")).HandleSubstring(reader);
+            var title = Handlers.TextWithStorngAndEmphasis.HandleUntil(r => r.IsLocatedOn("]"), reader);
             reader.Read(2);
-            var link = Handlers.TextHandler.WithStopRule(r => r.IsLocatedOn(")")).HandleSubstring(reader);
+            var link = Handlers.Char.HandleUntil(r => r.IsLocatedOn(")"), reader);
 
             return $"<a src='{link}'>{title}</a>";
         }
 
-        protected override string WrapIntoTag(string str)
+        protected override string ProcessInnerText(string innerText)
         {
-            return str;
+            throw new NotImplementedException();
         }
+
 
         protected override bool IsOnClosedBorder(StringReader reader)
         {

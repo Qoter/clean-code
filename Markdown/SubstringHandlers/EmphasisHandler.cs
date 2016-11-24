@@ -2,20 +2,14 @@
 
 namespace Markdown.SubstringHandlers
 {
-    public class EmphasisHandler : BorderedTagHandler
+    public class EmphasisHandler : BorderedHandler
     {
         protected override string Border { get; } = "_";
 
-        protected override string HandleBeforeClosedBorder(StringReader reader)
+        protected override string ProcessInnerText(string innerText)
         {
-            return Handlers.TextWithEscaped
-                .WithStopRule(IsOnClosedBorder)
-                .HandleSubstring(reader);
-        }
-
-        protected override string WrapIntoTag(string str)
-        {
-            return Tag.Emphasis.Wrap(str);
+            var processedInner =  Handlers.TextWithEscaped.HandleUntil(r => r.AtEndOfString, new StringReader(innerText));
+            return Tag.Emphasis.Wrap(processedInner);
         }
     }
 }

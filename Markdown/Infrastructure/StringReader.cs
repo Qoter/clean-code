@@ -7,6 +7,9 @@ namespace Markdown.Infrastructure
         private readonly string stringForRead;
         private int currentIndex;
 
+        public int CurrentIndex => currentIndex;
+        public string String => stringForRead;
+
         public StringReader(string stringForRead)
         {
             this.stringForRead = stringForRead;
@@ -34,7 +37,15 @@ namespace Markdown.Infrastructure
             return new Context(GetCharOn(currentIndex - 1), str, GetCharOn(currentIndex + str.Length));
         }
 
-        private char? GetCharOn(int index)
+        public Context GetContextOn(int index, string str)
+        {
+            if (!stringForRead.StartsWith(str, index))
+                throw new ArgumentException();
+
+            return new Context(GetCharOn(index - 1), str, GetCharOn(index + str.Length));
+        }
+
+        public char? GetCharOn(int index)
         {
             if (index < 0 || index >= stringForRead.Length)
                 return null;

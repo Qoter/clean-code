@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace Markdown.Tests
@@ -54,6 +55,9 @@ namespace Markdown.Tests
         [TestCaseSource(nameof(SpecifictaionCases))]
         public string RenderSpecification(string str)
         {
+            Console.WriteLine(Math.Sin(4));
+
+
             return Md.RenderLineToHtml(str);
         }
     }

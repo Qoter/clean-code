@@ -7,7 +7,6 @@
         public static readonly EmphasisHandler Emphasis = new EmphasisHandler();
         public static readonly EscapeHandler Escape = new EscapeHandler();
         public static readonly CharHandler Char = new CharHandler();
-        public static readonly FirstWorkHandler TextWithStorngAndEmphasis = FirstWorkHandler.CreateFrom(Escape, Strong, Emphasis, Char);
-        public static readonly FirstWorkHandler TextHandler = FirstWorkHandler.CreateFrom(Char); 
+        public static readonly FirstWorkHandler TextWithStorngAndEmphasis = new FirstWorkHandler(Escape, Strong, Emphasis, Char);
     }
 }

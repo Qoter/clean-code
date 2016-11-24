@@ -1,4 +1,7 @@
-﻿namespace Markdown.Infrastructure
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace Markdown.Infrastructure
 {
     public class Context
     {
