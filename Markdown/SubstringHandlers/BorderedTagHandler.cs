@@ -6,22 +6,21 @@ namespace Markdown.SubstringHandlers
     public abstract class BorderedTagHandler : ISubstringHandler
     {
         protected abstract string Border { get; }
-        protected abstract Tag Tag { get; }
 
         public string HandleSubstring(StringReader reader)
         {
             if (!CanHandle(reader))
-                throw new InvalidOperationException("Can't read emphasis substring");
+                throw new InvalidOperationException($"Reader not on border: {Border}");
 
             SkipBorder(reader);
             var innerText = HandleBeforeClosedBorder(reader);
 
             return TrySkipClosedBorder(reader)
-                ? Tag.Wrap(innerText)
+                ? WrapIntoTag(innerText)
                 : Border + innerText;
         }
 
-        public bool CanHandle(StringReader reader)
+        public virtual bool CanHandle(StringReader reader)
         {
             if (!reader.IsLocatedOn(Border))
                 return false;
@@ -32,7 +31,9 @@ namespace Markdown.SubstringHandlers
 
         protected abstract string HandleBeforeClosedBorder(StringReader reader);
 
-        protected bool IsOnClosedBorder(StringReader reader)
+        protected abstract string WrapIntoTag(string str);
+
+        protected virtual bool IsOnClosedBorder(StringReader reader)
         {
             if (!reader.IsLocatedOn(Border))
                 return false;
