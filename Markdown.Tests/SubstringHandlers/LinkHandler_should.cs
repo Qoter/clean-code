@@ -18,7 +18,7 @@ namespace Markdown.Tests.SubstringHandlers
         public string HandleLink(string str)
         {
             var reader = new StringReader(str);
-            var linkHandler = new LinkHandler();
+            var linkHandler = new LinkHandler(new TagProvider());
 
             return linkHandler.HandleSubstring(reader);
         }
@@ -28,7 +28,7 @@ namespace Markdown.Tests.SubstringHandlers
         public void SupportBaseUrl()
         {
             var reader = new StringReader("[hello](index.html)");
-            var linkHandelr = new LinkHandler(new Uri("http://hello"));
+            var linkHandelr = new LinkHandler(new TagProvider(), new Uri("http://hello"));
 
             linkHandelr.HandleSubstring(reader).Should().Be("<a src='http://hello/index.html'>hello</a>");
         }

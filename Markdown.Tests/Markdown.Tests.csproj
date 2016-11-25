@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\StringExtensionsTests.cs" />
+    <Compile Include="Infrastructure\TagProvider_should.cs" />
     <Compile Include="MarkdownPerformanceTest.cs" />
     <Compile Include="Md_ShouldRender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

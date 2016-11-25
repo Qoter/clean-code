@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Markdown.Infrastructure
 {
     public class Tag
     {
-        public static readonly Tag Emphasis = new Tag("em");
-        public static readonly Tag Strong = new Tag("strong");
-        public static readonly Tag Paragraph = new Tag("p");
+        private readonly string name;
 
-        private readonly string tag;
+        private readonly List<KeyValuePair<string, string>> attributes = new List<KeyValuePair<string, string>>();
 
-        private Tag(string tag)
+        public Tag(string name)
         {
-            this.tag = tag;
+            this.name = name;
         }
 
-        public string Wrap(string str)
+        public void AddAttribute(string key, string value)
         {
-            return $"<{tag}>{str}</{tag}>";
+            attributes.Add(new KeyValuePair<string, string>(key, value));
+        }
+
+        public string Wrap(string content)
+        {
+            var attributesString = string.Join("", attributes.Select(attr => $" {attr.Key}='{attr.Value}'"));
+            return $"<{name}{attributesString}>{content}</{name}>";
         }
     }
 }

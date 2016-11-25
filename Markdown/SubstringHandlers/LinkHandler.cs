@@ -1,14 +1,17 @@
 ﻿using System;
+using Markdown.Infrastructure;
 using StringReader = Markdown.Infrastructure.StringReader;
 
 namespace Markdown.SubstringHandlers
 {
     public class LinkHandler : ISubstringHandler
     {
+        private readonly TagProvider tagProvider;
         private readonly Uri baseUrl;
 
-        public LinkHandler(Uri baseUrl=null)
+        public LinkHandler(TagProvider tagProvider, Uri baseUrl=null)
         {
+            this.tagProvider = tagProvider;
             this.baseUrl = baseUrl;
         }
 
@@ -20,18 +23,22 @@ namespace Markdown.SubstringHandlers
             var endTitleIndex = FindClose(reader.String, reader.CurrentIndex, '[', ']');
 
             reader.Read(1);
-            var title = reader.Read(endTitleIndex - reader.CurrentIndex);
+            var linkTitle = reader.Read(endTitleIndex - reader.CurrentIndex);
             reader.Read(1);
 
             var endUrlIndex = FindClose(reader.String, reader.CurrentIndex, '(', ')');
 
             reader.Read(1);
-            var url = reader.Read(endUrlIndex - reader.CurrentIndex);
+            var linkUrl = reader.Read(endUrlIndex - reader.CurrentIndex);
             reader.Read(1);
 
-            var processedTitle = Handlers.TextWithStorngAndEmphasis.HandleUntil(r => r.AtEndOfString, new StringReader(title));
+            var handlerForTitle = new FirstWorkHandler(new EscapeHandler(), new StrongHandler(tagProvider), new EmphasisHandler(tagProvider), new CharHandler());
+            var processedTitle = handlerForTitle.HandleUntil(r => r.AtEndOfString, new StringReader(linkTitle));
 
-            return $"<a src='{AddBaseUrl(url)}'>{processedTitle}</a>";
+            var linkTag = tagProvider.GetTag("a");
+            linkTag.AddAttribute("src", AddBaseUrl(linkUrl));
+
+            return linkTag.Wrap(processedTitle);
         }
 
         public bool CanHandle(StringReader reader)

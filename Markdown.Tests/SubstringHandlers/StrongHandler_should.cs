@@ -17,7 +17,7 @@ namespace Markdown.Tests.SubstringHandlers
         public string HandleTextInsideDoubleUnderscore(string str)
         {
             var reader = new StringReader(str);
-            var strongHanler = new StrongHandler();
+            var strongHanler = new StrongHandler(new TagProvider());
 
             return strongHanler.HandleSubstring(reader);
         }
@@ -28,7 +28,7 @@ namespace Markdown.Tests.SubstringHandlers
         public void CanNotHandle(string str)
         {
             var reader = new StringReader(str);
-            var strongHandler = new StrongHandler();
+            var strongHandler = new StrongHandler(new TagProvider());
 
             strongHandler.CanHandle(reader).Should().BeFalse();
         }
@@ -37,7 +37,7 @@ namespace Markdown.Tests.SubstringHandlers
         public string HandlerTextInsideDoubleUderscore_WithUnderscoreInside(string str)
         {
             var reader = new StringReader(str);
-            var strongHandler = new StrongHandler();
+            var strongHandler = new StrongHandler(new TagProvider());
 
             return strongHandler.HandleSubstring(reader);
         }

@@ -5,12 +5,18 @@ namespace Markdown.SubstringHandlers
     public class StrongHandler : BorderedHandler
     {
         protected override string Border { get; } = "__";
+        private readonly TagProvider tagProvider;
+
+        public StrongHandler(TagProvider tagProvider)
+        {
+            this.tagProvider = tagProvider;
+        }
 
         protected override string ProcessInnerText(string innerText)
         {
-            var processedInner = new FirstWorkHandler(Handlers.Escape, Handlers.Emphasis, Handlers.Char)
+            var processedInner = new FirstWorkHandler(new EscapeHandler(), new EmphasisHandler(tagProvider), new CharHandler())
                 .HandleUntil(r => r.AtEndOfString, new StringReader(innerText));
-            return Tag.Strong.Wrap(processedInner);
+            return tagProvider.GetTag("strong").Wrap(processedInner);
         }
     }
 }

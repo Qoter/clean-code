@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Markdown.Infrastructure;
 
@@ -15,7 +16,7 @@ namespace Markdown.SubstringHandlers
                 throw new InvalidOperationException($"Reader not on border: {Border}");
 
             SkipBorder(reader);
-            var innerText = Handlers.Char.HandleUntil(IsOnClosedBorder, reader);
+            var innerText = new CharHandler().HandleUntil(IsOnClosedBorder, reader);
             SkipBorder(reader);
 
             return ProcessInnerText(innerText);

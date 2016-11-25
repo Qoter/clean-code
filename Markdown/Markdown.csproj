@@ -58,7 +58,9 @@
     <Compile Include="Infrastructure\NullableCharExtensions.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="Infrastructure\StringReader.cs" />
+    <Compile Include="Infrastructure\TagProvider.cs" />
     <Compile Include="Md.cs" />
+    <Compile Include="MdSettings.cs" />
     <Compile Include="SubstringHandlers\BorderedHandler.cs" />
     <Compile Include="SubstringHandlers\CharHandler.cs" />
     <Compile Include="SubstringHandlers\EmphasisHandler.cs" />

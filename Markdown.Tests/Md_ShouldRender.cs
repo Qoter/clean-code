@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentAssertions;
+using Markdown.Infrastructure;
 using NUnit.Framework;
 
 namespace Markdown.Tests
@@ -67,10 +69,29 @@ namespace Markdown.Tests
         [TestCaseSource(nameof(SpecifictaionCases))]
         public string RenderSpecification(string str)
         {
-            Console.WriteLine(Math.Sin(4));
-
-
             return new Md(MdSettings.Default).RenderLineToHtml(str);
+        }
+
+        [Test]
+        public void AddBaseUrl_SettingsWithBaseUrl()
+        {
+            var md = new Md(new MdSettings(new Uri("http://test")));
+
+            var renderedLine = md.RenderLineToHtml("Ссылка от базового адреса [клац](test.html)");
+
+            renderedLine.Should().Be("<p>Ссылка от базового адреса <a src='http://test/test.html'>клац</a></p>");
+        }
+
+        [Test]
+        public void AddBaseCssClass_Setting()
+        {
+            var md = new Md(new MdSettings(cssClass: "test"));
+
+            var renderedLine = md.RenderLineToHtml("_все_ теги __должны__ иметь класс [test](ссылка)");
+
+            renderedLine.Should().Be("<p class='test'><em class='test'>все</em>" +
+                                     " теги <strong class='test'>должны</strong> иметь класс " +
+                                     "<a class='test' src='ссылка'>test</a></p>");
         }
     }
 }
