@@ -61,6 +61,18 @@ namespace Markdown.Tests
                                  .Returns("<p><a src='http://ссылка'>внутри ссылок работает <em>курсив</em> и <strong>жирный</strong></a></p>")
                                  .SetName("Ссылки с курсивным и жирным выделением");
 
+            yield return new TestCaseData("Если между двух строк есть пустая строка\r\n\r\nто эти строки в разных параграфах")
+                                 .Returns("<p>Если между двух строк есть пустая строка</p><p>то эти строки в разных параграфах</p>")
+                                 .SetName("Текст разбивается на параграфы");
+
+            yield return new TestCaseData("Когда строка заканчивается на два пробела или более  \r\nто происходит перенос")
+                                 .Returns("<p>Когда строка заканчивается на два пробела или более<br />то происходит перенос</p>")
+                                 .SetName("Переносы строк");
+
+            yield return new TestCaseData("Но переноса не происходит, \r\nесли строки идут друг за другом")
+                                 .Returns("<p>Но переноса не происходит, \r\nесли строки идут друг за другом</p>")
+                                 .SetName("Переноса не происходит, если строке не заканчивается пробелами");
+
 
 
         }
@@ -68,7 +80,14 @@ namespace Markdown.Tests
         [TestCaseSource(nameof(SpecifictaionCases))]
         public string RenderSpecification(string str)
         {
-            return new Md(MdSettings.Default).RenderParagraphToHtml(str);
+            return new Md(MdSettings.Default).RenderTextToHtml(str);
+        }
+
+        [Test]
+        public void DoSomething_WhenSomething()
+        {
+            var md = new Md(MdSettings.Default);
+            var res = md.RenderParagraphToHtml("a  \r\nb");
         }
 
         [TestCase("abc", ExpectedResult = "<p>abc</p>", TestName = "Один параграф, если нет пустых строк")]

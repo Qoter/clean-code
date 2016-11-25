@@ -9,6 +9,8 @@ namespace Markdown.SubstringHandlers
         protected abstract string Border { get; }
         protected abstract string ProcessInnerText(string innerText);
 
+        private readonly ISubstringHandler innerTextHandler = new FirstWorkHandler(new EscapeSkipHandler(), new LineBreakHandler(), new CharHandler());
+
         public string HandleSubstring(StringReader reader)
         {
             if (!CanHandle(reader))
@@ -33,7 +35,7 @@ namespace Markdown.SubstringHandlers
         private string ReadInnerText(StringReader reader)
         {
             SkipBorder(reader);
-            var innerText = new FirstWorkHandler(new EscapeSkipHandler(), new CharHandler()).HandleUntil(IsOnClosedBorder, reader);
+            var innerText = innerTextHandler.HandleUntil(IsOnClosedBorder, reader);
             SkipBorder(reader);
 
             return innerText;

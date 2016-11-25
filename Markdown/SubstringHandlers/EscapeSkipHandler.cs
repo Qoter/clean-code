@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Markdown.Infrastructure;
+﻿using Markdown.Infrastructure;
 
 namespace Markdown.SubstringHandlers
 {
-    class EscapeSkipHandler : ISubstringHandler
+    public class EscapeSkipHandler : ISubstringHandler
     {
         public string HandleSubstring(StringReader reader)
         {

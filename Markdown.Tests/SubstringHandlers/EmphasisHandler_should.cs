@@ -14,6 +14,7 @@ namespace Markdown.Tests.SubstringHandlers
         [TestCase("_a_a_", ExpectedResult = "<em>a_a</em>", TestName = "Ignore underscore inside word")]
         [TestCase("_b a_a b_", ExpectedResult = "<em>b a_a b</em>", TestName = "Ignore undercore inside word")]
         [TestCase("_a _bc_", ExpectedResult = "<em>a _bc</em>", TestName = "Ignore underscore after whitespace")]
+        [TestCase("_a  \r\nb_", ExpectedResult = "<em>a<br />b</em>", TestName = "Line break iniside underscore")]
         public string HandleTextInsideUnderscore(string str)
         {
             var reader = new StringReader(str);

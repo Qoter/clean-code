@@ -24,7 +24,8 @@ namespace Markdown.SubstringHandlers
             var linkUrl = ReadInnerText(reader, '(', ')');
 
             var titleHandler = new FirstWorkHandler(
-                new EscapeHandler(), 
+                new EscapeHandler(),
+                new LineBreakHandler(),
                 new StrongHandler(tagProvider),
                 new EmphasisHandler(tagProvider),
                 new CharHandler());

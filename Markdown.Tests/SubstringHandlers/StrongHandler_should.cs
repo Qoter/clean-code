@@ -14,6 +14,7 @@ namespace Markdown.Tests.SubstringHandlers
         [TestCase("__a\\__b__", ExpectedResult = "<strong>a__b</strong>", TestName = "Ignore escape symbols")]
         [TestCase("__b a__a b__", ExpectedResult = "<strong>b a__a b</strong>", TestName = "Ignore double undercore inside word")]
         [TestCase("__a __bc__", ExpectedResult = "<strong>a __bc</strong>", TestName = "Ignore double underscore after whitespace")]
+        [TestCase("__a  \r\nb__", ExpectedResult = "<strong>a<br />b</strong>", TestName = "Line break inside double underscore")]
         public string HandleTextInsideDoubleUnderscore(string str)
         {
             var reader = new StringReader(str);

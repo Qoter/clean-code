@@ -15,6 +15,7 @@ namespace Markdown.Tests.SubstringHandlers
         [TestCase("[hello](url(()()))", ExpectedResult = "<a src='url(()())'>hello</a>", TestName = "Url with circular brace inside")]
         [TestCase("[hello]()", ExpectedResult = "<a src=''>hello</a>", TestName = "Empty url")]
         [TestCase("[](url)", ExpectedResult = "<a src='url'></a>", TestName = "Empty title")]
+        [TestCase("[a  \r\nb](abc)", ExpectedResult = "<a src='abc'>a<br />b</a>", TestName = "Line break inside link name")]
         public string HandleLink(string str)
         {
             var reader = new StringReader(str);
