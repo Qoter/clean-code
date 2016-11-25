@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Markdown.Infrastructure;
 using Markdown.SubstringHandlers;
 
@@ -9,8 +8,8 @@ namespace Markdown
 {
     public class Md
     {
-        private readonly MdSettings settings;
         private readonly ISubstringHandler markdownHandler;
+        private readonly MdSettings settings;
 
         public Md(MdSettings settings)
         {

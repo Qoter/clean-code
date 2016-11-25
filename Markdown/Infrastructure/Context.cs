@@ -1,17 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Markdown.Infrastructure
 {
     public class Context
     {
-        public  char? NextChar => right == "" ? null : (char?)right.First();
-        public char? PreviousChar => left == "" ? null : (char?)left.Last();
-
         private readonly string left;
-        private readonly string str;
         private readonly string right;
+        private readonly string str;
 
         public Context(string left, string str, string right)
         {
@@ -19,6 +14,9 @@ namespace Markdown.Infrastructure
             this.str = str;
             this.right = right;
         }
+
+        public char? NextChar => right == "" ? null : (char?) right.First();
+        public char? PreviousChar => left == "" ? null : (char?) left.Last();
 
         public StringReader RightReader
         {

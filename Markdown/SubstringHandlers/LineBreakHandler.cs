@@ -6,6 +6,7 @@ namespace Markdown.SubstringHandlers
     public class LineBreakHandler : ISubstringHandler
     {
         private const string LineBreakSequence = "  \r\n";
+
         public string HandleSubstring(StringReader reader)
         {
             if (!CanHandle(reader))

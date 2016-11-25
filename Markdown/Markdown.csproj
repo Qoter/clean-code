@@ -68,6 +68,7 @@
     <Compile Include="SubstringHandlers\EscapeSkipHandler.cs" />
     <Compile Include="SubstringHandlers\FirstWorkHandler.cs" />
     <Compile Include="SubstringHandlers\HandlersExtensions.cs" />
+    <Compile Include="SubstringHandlers\HeaderHandler.cs" />
     <Compile Include="SubstringHandlers\ISubstringHandler.cs" />
     <Compile Include="SubstringHandlers\LineBreakHandler.cs" />
     <Compile Include="SubstringHandlers\LinkHandler.cs" />

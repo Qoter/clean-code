@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Markdown.Infrastructure
 {
     public class Tag
     {
-        private readonly string name;
-
         private readonly List<KeyValuePair<string, string>> attributes = new List<KeyValuePair<string, string>>();
+        private readonly string name;
 
         public Tag(string name)
         {

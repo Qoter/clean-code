@@ -4,7 +4,7 @@
     {
         private readonly string cssClass;
 
-        public TagProvider(string cssClass=null)
+        public TagProvider(string cssClass = null)
         {
             this.cssClass = cssClass;
         }

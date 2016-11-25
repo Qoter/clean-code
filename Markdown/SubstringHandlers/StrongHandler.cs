@@ -4,15 +4,17 @@ namespace Markdown.SubstringHandlers
 {
     public class StrongHandler : BorderedHandler
     {
-        protected override string Border { get; } = "__";
+        private readonly FirstWorkHandler innerTextHandler;
         private readonly TagProvider tagProvider;
-        private FirstWorkHandler innerTextHandler;
 
         public StrongHandler(TagProvider tagProvider)
         {
             this.tagProvider = tagProvider;
-            innerTextHandler = new FirstWorkHandler(new EscapeHandler(), new EmphasisHandler(tagProvider), new CharHandler());
+            innerTextHandler = new FirstWorkHandler(new EscapeHandler(), new EmphasisHandler(tagProvider),
+                new CharHandler());
         }
+
+        protected override string Border { get; } = "__";
 
         protected override string ProcessInnerText(string innerText)
         {

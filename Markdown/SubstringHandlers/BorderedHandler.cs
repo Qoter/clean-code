@@ -6,10 +6,10 @@ namespace Markdown.SubstringHandlers
 {
     public abstract class BorderedHandler : ISubstringHandler
     {
-        protected abstract string Border { get; }
-        protected abstract string ProcessInnerText(string innerText);
+        private readonly ISubstringHandler innerTextHandler = new FirstWorkHandler(new EscapeSkipHandler(),
+            new LineBreakHandler(), new CharHandler());
 
-        private readonly ISubstringHandler innerTextHandler = new FirstWorkHandler(new EscapeSkipHandler(), new LineBreakHandler(), new CharHandler());
+        protected abstract string Border { get; }
 
         public string HandleSubstring(StringReader reader)
         {
@@ -20,15 +20,25 @@ namespace Markdown.SubstringHandlers
             return ProcessInnerText(innerText);
         }
 
-        public bool CanHandle(StringReader reader) => IsOnOpenedBorder(reader) && ContainsClosedBorderAhead(reader.GetContext(Border).RightReader);
+        public bool CanHandle(StringReader reader)
+            => IsOnOpenedBorder(reader) && ContainsClosedBorderAhead(reader.GetContext(Border).RightReader);
 
-        private bool ContainsClosedBorderAhead(StringReader reader) => reader.FindContextsFor(Border).Any(IsClosedContext);
+        protected abstract string ProcessInnerText(string innerText);
 
-        private bool IsOnOpenedBorder(StringReader reader) => reader.IsLocatedOn(Border) && IsOpenedContext(reader.GetContext(Border));
-        private bool IsOnClosedBorder(StringReader reader) => reader.IsLocatedOn(Border) && IsClosedContext(reader.GetContext(Border));
+        private bool ContainsClosedBorderAhead(StringReader reader)
+            => reader.FindContextsFor(Border).Any(IsClosedContext);
 
-        private static bool IsOpenedContext(Context context) => !context.InsidePrintable && !context.NextChar.IsWhiteSpace();
-        private static bool IsClosedContext(Context context) => !context.InsidePrintable && !context.PreviousChar.IsWhiteSpace();
+        private bool IsOnOpenedBorder(StringReader reader)
+            => reader.IsLocatedOn(Border) && IsOpenedContext(reader.GetContext(Border));
+
+        private bool IsOnClosedBorder(StringReader reader)
+            => reader.IsLocatedOn(Border) && IsClosedContext(reader.GetContext(Border));
+
+        private static bool IsOpenedContext(Context context)
+            => !context.InsidePrintable && !context.NextChar.IsWhiteSpace();
+
+        private static bool IsClosedContext(Context context)
+            => !context.InsidePrintable && !context.PreviousChar.IsWhiteSpace();
 
         private void SkipBorder(StringReader reader) => reader.Read(Border.Length);
 

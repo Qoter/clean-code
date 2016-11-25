@@ -5,12 +5,11 @@ namespace Markdown
 {
     public class MdSettings
     {
+        public static readonly MdSettings Default = new MdSettings();
         public readonly Uri BaseUrl;
         public readonly TagProvider TagProvider;
 
-        public static readonly MdSettings Default = new MdSettings();
-
-        public MdSettings(Uri baseUrl=null, string cssClass=null)
+        public MdSettings(Uri baseUrl = null, string cssClass = null)
         {
             BaseUrl = baseUrl;
             TagProvider = new TagProvider(cssClass);

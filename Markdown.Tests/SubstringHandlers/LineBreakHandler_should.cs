@@ -14,7 +14,6 @@ namespace Markdown.Tests.SubstringHandlers
             var handler = new LineBreakHandler();
 
             handler.HandleSubstring(reader).Should().Be("<br />");
-
         }
     }
 }

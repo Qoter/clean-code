@@ -27,7 +27,7 @@ namespace Markdown.Tests
 
         public static string GenerateRandomMarkdownString(int length, int seed = 0)
         {
-            var symbols = new[] { '_', '_', 'a', 'b', 'c', 'd', 'e', ' ' };
+            var symbols = new[] {'_', '_', 'a', 'b', 'c', 'd', 'e', ' '};
             var random = new Random(seed);
             return string.Join("", Enumerable.Range(0, length).Select(_ => symbols[random.Next(symbols.Length)]));
         }
@@ -37,6 +37,5 @@ namespace Markdown.Tests
         {
             BenchmarkRunner.Run<MarkdownPerformanceTest>();
         }
-
     }
 }

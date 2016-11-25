@@ -4,15 +4,9 @@ using Fclp;
 
 namespace Markdown.Client
 {
-    class Program
+    internal class Program
     {
-        public class MarkdownArguments
-        {
-            public string InputFileName { get; set; }
-            public string OutputFileName { get; set; }
-        }
-
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var argsParser = new FluentCommandLineParser<MarkdownArguments>();
 
@@ -47,6 +41,12 @@ namespace Markdown.Client
             var mdText = File.ReadAllText(arguments.InputFileName);
             var htmlLines = new Md(MdSettings.Default).RenderTextToHtml(mdText);
             File.WriteAllText(arguments.OutputFileName, htmlLines);
+        }
+
+        public class MarkdownArguments
+        {
+            public string InputFileName { get; set; }
+            public string OutputFileName { get; set; }
         }
     }
 }

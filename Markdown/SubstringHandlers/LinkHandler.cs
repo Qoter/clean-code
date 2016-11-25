@@ -1,15 +1,14 @@
 ﻿using System;
 using Markdown.Infrastructure;
-using StringReader = Markdown.Infrastructure.StringReader;
 
 namespace Markdown.SubstringHandlers
 {
     public class LinkHandler : ISubstringHandler
     {
-        private readonly TagProvider tagProvider;
         private readonly Uri baseUrl;
+        private readonly TagProvider tagProvider;
 
-        public LinkHandler(TagProvider tagProvider, Uri baseUrl=null)
+        public LinkHandler(TagProvider tagProvider, Uri baseUrl = null)
         {
             this.tagProvider = tagProvider;
             this.baseUrl = baseUrl;
@@ -37,17 +36,6 @@ namespace Markdown.SubstringHandlers
             return linkTag.Wrap(processedTitle);
         }
 
-        public string ReadInnerText(StringReader reader, char leftBrace, char rightBrace)
-        {
-            var rightBraceIndex = FindRightBrace(reader.String, reader.CurrentIndex, leftBrace, rightBrace);
-
-            reader.Read(1);
-            var innerText = reader.Read(rightBraceIndex - reader.CurrentIndex);
-            reader.Read(1);
-
-            return innerText;
-        }
-
         public bool CanHandle(StringReader reader)
         {
             if (!reader.IsLocatedOn("["))
@@ -61,6 +49,17 @@ namespace Markdown.SubstringHandlers
             var rightCircleIndex = FindRightBrace(reader.String, leftSquareIndex + 1, '(', ')');
 
             return rightCircleIndex != -1;
+        }
+
+        public string ReadInnerText(StringReader reader, char leftBrace, char rightBrace)
+        {
+            var rightBraceIndex = FindRightBrace(reader.String, reader.CurrentIndex, leftBrace, rightBrace);
+
+            reader.Read(1);
+            var innerText = reader.Read(rightBraceIndex - reader.CurrentIndex);
+            reader.Read(1);
+
+            return innerText;
         }
 
         private static int FindRightBrace(string str, int startIndex, char open, char close)
@@ -81,8 +80,8 @@ namespace Markdown.SubstringHandlers
 
         private string PrependBaseUrl(string relativeUrl)
         {
-            return baseUrl == null 
-                ? relativeUrl 
+            return baseUrl == null
+                ? relativeUrl
                 : new Uri(baseUrl, relativeUrl).ToString();
         }
     }
