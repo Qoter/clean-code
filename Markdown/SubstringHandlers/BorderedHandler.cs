@@ -18,25 +18,9 @@ namespace Markdown.SubstringHandlers
             return ProcessInnerText(innerText);
         }
 
-        private string ReadInnerText(StringReader reader)
-        {
-            SkipBorder(reader);
-            var innerText = new CharHandler().HandleUntil(IsOnClosedBorder, reader);
-            SkipBorder(reader);
+        public bool CanHandle(StringReader reader) => IsOnOpenedBorder(reader) && ContainsClosedBorderAhead(reader.GetContext(Border).RightReader);
 
-            return innerText;
-        }
-
-        public virtual bool CanHandle(StringReader reader)
-        {
-            if (!IsOnOpenedBorder(reader))
-                return false;
-
-            var openedContext = reader.GetContext(Border);
-            return openedContext.RightReader
-                .FindContextsFor(Border)
-                .Any(IsClosedContext);
-        }
+        private bool ContainsClosedBorderAhead(StringReader reader) => reader.FindContextsFor(Border).Any(IsClosedContext);
 
         private bool IsOnOpenedBorder(StringReader reader) => reader.IsLocatedOn(Border) && IsOpenedContext(reader.GetContext(Border));
         private bool IsOnClosedBorder(StringReader reader) => reader.IsLocatedOn(Border) && IsClosedContext(reader.GetContext(Border));
@@ -45,5 +29,14 @@ namespace Markdown.SubstringHandlers
         private static bool IsClosedContext(Context context) => !context.InsidePrintable && !context.PreviousChar.IsWhiteSpace();
 
         private void SkipBorder(StringReader reader) => reader.Read(Border.Length);
+
+        private string ReadInnerText(StringReader reader)
+        {
+            SkipBorder(reader);
+            var innerText = new CharHandler().HandleUntil(IsOnClosedBorder, reader);
+            SkipBorder(reader);
+
+            return innerText;
+        }
     }
 }

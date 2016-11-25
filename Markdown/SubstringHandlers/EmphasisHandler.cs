@@ -14,7 +14,8 @@ namespace Markdown.SubstringHandlers
 
         protected override string ProcessInnerText(string innerText)
         {
-            var processedInner =  new FirstWorkHandler(new EscapeHandler(), new CharHandler()).HandleUntil(r => r.AtEndOfString, new StringReader(innerText));
+            var processedInner =  new FirstWorkHandler(new EscapeHandler(), new CharHandler())
+                .HandleUntil(r => r.AtEndOfString, new StringReader(innerText));
             return tagProvider.GetTag("em").Wrap(processedInner);
         }
     }
