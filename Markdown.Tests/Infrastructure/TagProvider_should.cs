@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Markdown.Tests.Infrastructure
 {
-    internal class TagProvider_should
+    public class TagProvider_should
     {
         [Test]
         public void AddCssClass_WhenCreatedWithCssClas()

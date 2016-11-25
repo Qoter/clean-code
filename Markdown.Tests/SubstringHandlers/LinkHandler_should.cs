@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace Markdown.Tests.SubstringHandlers
 {
-    internal class LinkHandler_should
+    public class LinkHandler_should
     {
         [TestCase("[hello](url)", ExpectedResult = "<a src='url'>hello</a>", TestName = "Simple link")]
         [TestCase("[_hello_](url)", ExpectedResult = "<a src='url'><em>hello</em></a>", TestName = "Title with emphasis"

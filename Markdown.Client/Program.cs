@@ -4,7 +4,7 @@ using Fclp;
 
 namespace Markdown.Client
 {
-    internal class Program
+    public class Program
     {
         private static void Main(string[] args)
         {
