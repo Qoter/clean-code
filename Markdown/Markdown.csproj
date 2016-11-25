@@ -69,7 +69,6 @@
     <Compile Include="SubstringHandlers\HandlersExtensions.cs" />
     <Compile Include="SubstringHandlers\ISubstringHandler.cs" />
     <Compile Include="SubstringHandlers\LinkHandler.cs" />
-    <Compile Include="SubstringHandlers\StringExtensionForHandlers.cs" />
     <Compile Include="SubstringHandlers\StrongHandler.cs" />
     <Compile Include="Infrastructure\Tag.cs" />
   </ItemGroup>

@@ -20,7 +20,7 @@ namespace Markdown.SubstringHandlers
             if (!CanHandle(reader))
                 throw new ArgumentException();
 
-            var linkTitle = ReadInnerText(reader, '[', ']');
+            var linkName = ReadInnerText(reader, '[', ']');
             var linkUrl = ReadInnerText(reader, '(', ')');
 
             var titleHandler = new FirstWorkHandler(
@@ -28,7 +28,7 @@ namespace Markdown.SubstringHandlers
                 new StrongHandler(tagProvider),
                 new EmphasisHandler(tagProvider),
                 new CharHandler());
-            var processedTitle = titleHandler.HandleUntil(r => r.AtEndOfString, new StringReader(linkTitle));
+            var processedTitle = titleHandler.HandleUntil(r => r.AtEndOfString, new StringReader(linkName));
 
             var linkTag = tagProvider.GetTag("a");
             linkTag.AddAttribute("src", PrependBaseUrl(linkUrl));
