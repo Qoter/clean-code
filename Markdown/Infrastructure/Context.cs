@@ -1,19 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Markdown.Infrastructure
 {
     public class Context
     {
-        public readonly char? NextChar;
-        public readonly char? PreviousChar;
-        public readonly string String;
+        public  char? NextChar => right == "" ? null : (char?)right.First();
+        public char? PreviousChar => left == "" ? null : (char?)left.Last();
 
-        public Context(char? previousChar, string s, char? nextChar)
+        private readonly string left;
+        private readonly string str;
+        private readonly string right;
+
+        //public Context(char? previousChar, string s, char? nextChar, string rightString)
+        //{
+        //    PreviousChar = previousChar;
+        //    String = s;
+        //    NextChar = nextChar;
+        //    this.rightString = rightString;
+        //}
+
+        public Context(string left, string str, string right)
         {
-            PreviousChar = previousChar;
-            String = s;
-            NextChar = nextChar;
+            this.left = left;
+            this.str = str;
+            this.right = right;
+        }
+
+        public StringReader RightReader
+        {
+            get
+            {
+                var rightReader = new StringReader(left + str + right);
+                rightReader.Read(left.Length + str.Length);
+                return rightReader;
+            }
         }
 
         public bool InsidePrintable => PreviousChar.IsPrintable() && NextChar.IsPrintable();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Markdown.Infrastructure;
 
 namespace Markdown.SubstringHandlers
@@ -22,34 +23,16 @@ namespace Markdown.SubstringHandlers
 
         public virtual bool CanHandle(StringReader reader)
         {
-            // check open border
             if (!reader.IsLocatedOn(Border))
                 return false;
 
-            var borderContext = reader.GetContext(Border);
-            var canStart = !borderContext.InsidePrintable && !borderContext.NextChar.IsWhiteSpace();
-            if (!canStart)
+
+            var openContext = reader.GetContext(Border);
+            if (openContext.InsidePrintable || openContext.NextChar.IsWhiteSpace())
                 return false;
 
-
-            //check close border
-            var currentIndex = reader.CurrentIndex;
-            currentIndex += Border.Length;
-
-            while (currentIndex < reader.String.Length)
-            {
-                if (reader.String.StartsWith(Border, currentIndex))
-                {
-                    var closeBorderContext = reader.GetContextOn(currentIndex, Border);
-                    if (!closeBorderContext.InsidePrintable && !closeBorderContext.PreviousChar.IsWhiteSpace())
-                    {
-                        return true;
-                    }
-                }
-                currentIndex++;
-            }
-            return false;
-
+            var closeContexts = openContext.RightReader.FindContextsFor(Border);
+            return closeContexts.Any(c => !c.InsidePrintable && !c.PreviousChar.IsWhiteSpace());
         }
 
         protected virtual bool IsOnClosedBorder(StringReader reader)

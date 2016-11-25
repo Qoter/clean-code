@@ -58,7 +58,7 @@ namespace Markdown.Tests
             Console.WriteLine(Math.Sin(4));
 
 
-            return Md.RenderLineToHtml(str);
+            return new Md(MdSettings.Default).RenderLineToHtml(str);
         }
     }
 }

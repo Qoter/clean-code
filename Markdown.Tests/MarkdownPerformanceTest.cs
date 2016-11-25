@@ -17,13 +17,13 @@ namespace Markdown.Tests
         private static readonly string text1m = GenerateRandomMarkdownString(1000000);
 
         [Benchmark]
-        public string On10K() => Md.RenderLineToHtml(text10k);
+        public string On10K() => new Md(MdSettings.Default).RenderLineToHtml(text10k);
 
         [Benchmark]
-        public string On100K() => Md.RenderLineToHtml(text100k);
+        public string On100K() => new Md(MdSettings.Default).RenderLineToHtml(text100k);
 
         [Benchmark]
-        public string On1M() => Md.RenderLineToHtml(text1m);
+        public string On1M() => new Md(MdSettings.Default).RenderLineToHtml(text1m);
 
         public static string GenerateRandomMarkdownString(int length, int seed = 0)
         {

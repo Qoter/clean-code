@@ -45,7 +45,7 @@ namespace Markdown.Client
         public static void RenderToHtml(MarkdownArguments arguments)
         {
             var mdRawLines = File.ReadLines(arguments.InputFileName);
-            var htmlLines = Md.RenderAllLinesToHtml(mdRawLines);
+            var htmlLines = new Md(MdSettings.Default).RenderAllLinesToHtml(mdRawLines);
             File.WriteAllLines(arguments.OutputFileName, htmlLines);
         }
     }

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Markdown.Infrastructure
 {
@@ -32,24 +35,28 @@ namespace Markdown.Infrastructure
         public Context GetContext(string str)
         {
             if (!IsLocatedOn(str))
-                throw new ArgumentException($"Reader is not located on {str}");
-
-            return new Context(GetCharOn(currentIndex - 1), str, GetCharOn(currentIndex + str.Length));
-        }
-
-        public Context GetContextOn(int index, string str)
-        {
-            if (!stringForRead.StartsWith(str, index))
                 throw new ArgumentException();
 
-            return new Context(GetCharOn(index - 1), str, GetCharOn(index + str.Length));
+            return new Context(stringForRead.Substring(0, currentIndex), str, stringForRead.Substring(CurrentIndex + str.Length));
         }
+
 
         public char? GetCharOn(int index)
         {
             if (index < 0 || index >= stringForRead.Length)
                 return null;
             return stringForRead[index];
+        }
+
+        public IEnumerable<Context> FindContextsFor(string str)
+        {
+            for (var index = CurrentIndex; index < stringForRead.Length; index++)
+            {
+                if (stringForRead.StartsWith(str, index))
+                {
+                    yield return new Context(stringForRead.Substring(0, index), str, stringForRead.Substring(index + str.Length));
+                }
+            }
         }
     }
 }
