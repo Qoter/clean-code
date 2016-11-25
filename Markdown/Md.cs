@@ -29,11 +29,6 @@ namespace Markdown
             return settings.TagProvider.GetTag("p").Wrap(result);
         }
 
-        public IEnumerable<string> RenderAllLinesToHtml(IEnumerable<string> markdownLines)
-        {
-            return markdownLines.Select(RenderParagraphToHtml);
-        }
-
         public string RenderTextToHtml(string markdownText)
         {
             var rednerdeParagraphs = SplitIntoParagraphs(markdownText)
