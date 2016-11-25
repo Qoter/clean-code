@@ -1,4 +1,6 @@
-﻿using Markdown.Infrastructure;
+﻿using System;
+using FluentAssertions;
+using Markdown.Infrastructure;
 using Markdown.SubstringHandlers;
 using NUnit.Framework;
 
@@ -19,6 +21,16 @@ namespace Markdown.Tests.SubstringHandlers
             var linkHandler = new LinkHandler();
 
             return linkHandler.HandleSubstring(reader);
+        }
+
+
+        [Test]
+        public void SupportBaseUrl()
+        {
+            var reader = new StringReader("[hello](index.html)");
+            var linkHandelr = new LinkHandler(new Uri("http://hello"));
+
+            linkHandelr.HandleSubstring(reader).Should().Be("<a src='http://hello/index.html'>hello</a>");
         }
     }
 }

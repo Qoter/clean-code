@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Markdown.Infrastructure;
@@ -8,12 +9,12 @@ namespace Markdown
 {
     public class MdSettings
     {
-        private readonly string baseUrl;
-        public static readonly MdSettings Default = new MdSettings("");
+        public readonly Uri BaseUrl;
+        public static readonly MdSettings Default = new MdSettings(null);
 
-        public MdSettings(string baseUrl)
+        public MdSettings(Uri baseUrl)
         {
-            this.baseUrl = baseUrl;
+            this.BaseUrl = baseUrl;
         }
     }
 
@@ -28,7 +29,8 @@ namespace Markdown
 
         public string RenderLineToHtml(string markdownLine)
         {
-            var markdownHandler = new FirstWorkHandler(Handlers.Escape, Handlers.Strong, Handlers.Emphasis, Handlers.Char);
+
+            var markdownHandler = new FirstWorkHandler(Handlers.Escape, new LinkHandler(settings.BaseUrl), Handlers.Strong, Handlers.Emphasis, Handlers.Char);
             var result = markdownHandler.HandleUntil(r => r.AtEndOfString, new StringReader(markdownLine));
             return Tag.Paragraph.Wrap(result);
         }

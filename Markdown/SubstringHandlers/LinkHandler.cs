@@ -1,11 +1,17 @@
 ﻿using System;
-using System.Linq;
-using Markdown.Infrastructure;
+using StringReader = Markdown.Infrastructure.StringReader;
 
 namespace Markdown.SubstringHandlers
 {
     public class LinkHandler : ISubstringHandler
     {
+        private readonly Uri baseUrl;
+
+        public LinkHandler(Uri baseUrl=null)
+        {
+            this.baseUrl = baseUrl;
+        }
+
         public string HandleSubstring(StringReader reader)
         {
             if (!CanHandle(reader))
@@ -25,7 +31,7 @@ namespace Markdown.SubstringHandlers
 
             var processedTitle = Handlers.TextWithStorngAndEmphasis.HandleUntil(r => r.AtEndOfString, new StringReader(title));
 
-            return $"<a src='{url}'>{processedTitle}</a>";
+            return $"<a src='{AddBaseUrl(url)}'>{processedTitle}</a>";
         }
 
         public bool CanHandle(StringReader reader)
@@ -60,6 +66,13 @@ namespace Markdown.SubstringHandlers
                     return i;
             }
             return -1;
+        }
+
+        private string AddBaseUrl(string relativeUrl)
+        {
+            return baseUrl == null 
+                ? relativeUrl 
+                : new Uri(baseUrl, relativeUrl).ToString();
         }
     }
 }

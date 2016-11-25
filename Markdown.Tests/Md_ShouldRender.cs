@@ -50,7 +50,19 @@ namespace Markdown.Tests
             yield return new TestCaseData("_эти _подчерки _не считаются_ окончанием выделения")
                                  .Returns("<p><em>эти _подчерки _не считаются</em> окончанием выделения</p>")
                                  .SetName("Выделение не заканчивается, если перед подчерком пробел");
-        }
+
+            yield return new TestCaseData("[Должны поддерживаться ссылки](http://ссылка)")
+                                 .Returns("<p><a src='http://ссылка'>Должны поддерживаться ссылки</a></p>")
+                                 .SetName("Ссылки");
+
+            
+            yield return new TestCaseData("[внутри ссылок работает _курсив_ и __жирный__](http://ссылка)")
+                                 .Returns("<p><a src='http://ссылка'>внутри ссылок работает <em>курсив</em> и <strong>жирный</strong></a></p>")
+                                 .SetName("Ссылки с курсивным и жирным выделением");
+
+
+
+    }
 
         [TestCaseSource(nameof(SpecifictaionCases))]
         public string RenderSpecification(string str)
