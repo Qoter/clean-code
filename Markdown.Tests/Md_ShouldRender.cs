@@ -73,6 +73,12 @@ namespace Markdown.Tests
             yield return new TestCaseData("Но переноса не происходит, \r\nесли строки идут друг за другом")
                                  .Returns("<p>Но переноса не происходит, \r\nесли строки идут друг за другом</p>")
                                  .SetName("Переноса не происходит, если строке не заканчивается пробелами");
+
+            yield return new TestCaseData("#Есть заголовки\r\n###Разного уровня\r\nНо это #не заголовок")
+                                 .Returns("<p><h1>Есть заголовки</h1>\r\n<h3>Разного уровня</h3>\r\nНо это #не заголовок</p>")
+                                 .SetName("Заголовки");
+
+
         }
 
         [TestCaseSource(nameof(SpecifictaionCases))]
@@ -97,7 +103,7 @@ namespace Markdown.Tests
         {
             var md = new Md(new MdSettings(cssClass: "test"));
 
-            var renderedLine = md.RenderParagraphToHtml("_все_ теги __должны__ иметь класс [test](ссылка)");
+            var renderedLine = md.RenderTextToHtml("_все_ теги __должны__ иметь класс [test](ссылка)");
 
             renderedLine.Should().Be("<p class='test'><em class='test'>все</em>" +
                                      " теги <strong class='test'>должны</strong> иметь класс " +
@@ -110,7 +116,7 @@ namespace Markdown.Tests
         {
             var md = new Md(new MdSettings(new Uri("http://test")));
 
-            var renderedLine = md.RenderParagraphToHtml("Ссылка от базового адреса [клац](test.html)");
+            var renderedLine = md.RenderTextToHtml("Ссылка от базового адреса [клац](test.html)");
 
             renderedLine.Should().Be("<p>Ссылка от базового адреса <a src='http://test/test.html'>клац</a></p>");
         }

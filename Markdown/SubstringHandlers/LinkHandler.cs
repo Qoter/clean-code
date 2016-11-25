@@ -5,13 +5,11 @@ namespace Markdown.SubstringHandlers
 {
     public class LinkHandler : ISubstringHandler
     {
-        private readonly Uri baseUrl;
-        private readonly TagProvider tagProvider;
+        private readonly MdSettings settings;
 
-        public LinkHandler(TagProvider tagProvider, Uri baseUrl = null)
+        public LinkHandler(MdSettings settings)
         {
-            this.tagProvider = tagProvider;
-            this.baseUrl = baseUrl;
+            this.settings = settings;
         }
 
         public string HandleSubstring(StringReader reader)
@@ -25,12 +23,12 @@ namespace Markdown.SubstringHandlers
             var titleHandler = new FirstWorkHandler(
                 new EscapeHandler(),
                 new LineBreakHandler(),
-                new StrongHandler(tagProvider),
-                new EmphasisHandler(tagProvider),
+                new StrongHandler(settings),
+                new EmphasisHandler(settings),
                 new CharHandler());
             var processedTitle = titleHandler.HandleUntil(r => r.AtEndOfString, new StringReader(linkName));
 
-            var linkTag = tagProvider.GetTag("a");
+            var linkTag = settings.TagProvider.GetTag("a");
             linkTag.AddAttribute("src", PrependBaseUrl(linkUrl));
 
             return linkTag.Wrap(processedTitle);
@@ -80,9 +78,9 @@ namespace Markdown.SubstringHandlers
 
         private string PrependBaseUrl(string relativeUrl)
         {
-            return baseUrl == null
+            return settings.BaseUrl == null
                 ? relativeUrl
-                : new Uri(baseUrl, relativeUrl).ToString();
+                : new Uri(settings.BaseUrl, relativeUrl).ToString();
         }
     }
 }

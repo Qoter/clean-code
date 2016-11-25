@@ -4,13 +4,16 @@ namespace Markdown.SubstringHandlers
 {
     public class StrongHandler : BorderedHandler
     {
+        private readonly MdSettings settings;
         private readonly FirstWorkHandler innerTextHandler;
-        private readonly TagProvider tagProvider;
 
-        public StrongHandler(TagProvider tagProvider)
+        public StrongHandler(MdSettings settings)
         {
-            this.tagProvider = tagProvider;
-            innerTextHandler = new FirstWorkHandler(new EscapeHandler(), new EmphasisHandler(tagProvider),
+            this.settings = settings;
+            innerTextHandler = new FirstWorkHandler(
+                new EscapeHandler(),
+                new LinkHandler(settings),
+                new EmphasisHandler(settings),
                 new CharHandler());
         }
 
@@ -19,7 +22,7 @@ namespace Markdown.SubstringHandlers
         protected override string ProcessInnerText(string innerText)
         {
             var processedInner = innerTextHandler.HandleUntil(r => r.AtEndOfString, new StringReader(innerText));
-            return tagProvider.GetTag("strong").Wrap(processedInner);
+            return settings.TagProvider.GetTag("strong").Wrap(processedInner);
         }
     }
 }

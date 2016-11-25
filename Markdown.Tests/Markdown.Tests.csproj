@@ -100,6 +100,7 @@
     <Compile Include="SubstringHandlers\EmphasisHandler_should.cs" />
     <Compile Include="SubstringHandlers\EscapeHandler_should.cs" />
     <Compile Include="SubstringHandlers\EscapeSkipHandler_should.cs" />
+    <Compile Include="SubstringHandlers\HeaderHandler_should.cs" />
     <Compile Include="SubstringHandlers\LineBreakHandler_should.cs" />
     <Compile Include="SubstringHandlers\LinkHandler_should.cs" />
     <Compile Include="SubstringHandlers\StrongHandler_should.cs" />

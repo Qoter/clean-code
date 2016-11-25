@@ -18,16 +18,11 @@ namespace Markdown
             markdownHandler = new FirstWorkHandler(
                 new EscapeHandler(),
                 new LineBreakHandler(),
-                new LinkHandler(settings.TagProvider, settings.BaseUrl),
-                new StrongHandler(settings.TagProvider),
-                new EmphasisHandler(settings.TagProvider),
+                new HeaderHandler(settings),
+                new LinkHandler(settings),
+                new StrongHandler(settings),
+                new EmphasisHandler(settings),
                 new CharHandler());
-        }
-
-        public string RenderParagraphToHtml(string paragraph)
-        {
-            var result = markdownHandler.HandleUntil(r => r.AtEndOfString, new StringReader(paragraph));
-            return settings.TagProvider.GetTag("p").Wrap(result);
         }
 
         public string RenderTextToHtml(string markdownText)
@@ -37,6 +32,12 @@ namespace Markdown
                 .Select(RenderParagraphToHtml);
 
             return string.Join("", renderedParagraphs);
+        }
+
+        private string RenderParagraphToHtml(string paragraph)
+        {
+            var result = markdownHandler.HandleUntil(r => r.AtEndOfString, new StringReader(paragraph));
+            return settings.TagProvider.GetTag("p").Wrap(result);
         }
 
         private static IEnumerable<string> SplitIntoParagraphs(string markdownText)

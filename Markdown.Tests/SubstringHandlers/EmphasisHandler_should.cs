@@ -18,7 +18,7 @@ namespace Markdown.Tests.SubstringHandlers
         public string HandleTextInsideUnderscore(string str)
         {
             var reader = new StringReader(str);
-            var emphasisHandler = new EmphasisHandler(new TagProvider());
+            var emphasisHandler = new EmphasisHandler(MdSettings.Default);
 
             return emphasisHandler.HandleSubstring(reader);
         }
@@ -29,7 +29,7 @@ namespace Markdown.Tests.SubstringHandlers
         public void CanNotHandle(string str)
         {
             var reader = new StringReader(str);
-            var emphasisHandler = new EmphasisHandler(new TagProvider());
+            var emphasisHandler = new EmphasisHandler(MdSettings.Default);
 
             emphasisHandler.CanHandle(reader).Should().BeFalse();
         }
@@ -39,7 +39,7 @@ namespace Markdown.Tests.SubstringHandlers
         {
             var reader = new StringReader("hello_world_");
             reader.Read(5);
-            var emphasisHandler = new EmphasisHandler(new TagProvider());
+            var emphasisHandler = new EmphasisHandler(MdSettings.Default);
 
             emphasisHandler.CanHandle(reader).Should().BeFalse();
         }
@@ -48,7 +48,7 @@ namespace Markdown.Tests.SubstringHandlers
         public void ThrowsInvalidOperation_IfTryHandleWithNotUnderscore()
         {
             var reader = new StringReader("abc");
-            var emphasisHandler = new EmphasisHandler(new TagProvider());
+            var emphasisHandler = new EmphasisHandler(MdSettings.Default);
 
             Action tryReadFromNotUnderscore = () => emphasisHandler.HandleSubstring(reader);
 

@@ -4,13 +4,16 @@ namespace Markdown.SubstringHandlers
 {
     public class EmphasisHandler : BorderedHandler
     {
+        private readonly MdSettings settings;
         private readonly ISubstringHandler innerTextHandler;
-        private readonly TagProvider tagProvider;
 
-        public EmphasisHandler(TagProvider tagProvider)
+        public EmphasisHandler(MdSettings settings)
         {
-            this.tagProvider = tagProvider;
-            innerTextHandler = new FirstWorkHandler(new EscapeHandler(), new CharHandler());
+            this.settings = settings;
+            innerTextHandler = new FirstWorkHandler(
+                new EscapeHandler(),
+                new LinkHandler(settings),
+                new CharHandler());
         }
 
         protected override string Border { get; } = "_";
@@ -18,7 +21,7 @@ namespace Markdown.SubstringHandlers
         protected override string ProcessInnerText(string innerText)
         {
             var processedInner = innerTextHandler.HandleUntil(r => r.AtEndOfString, new StringReader(innerText));
-            return tagProvider.GetTag("em").Wrap(processedInner);
+            return settings.TagProvider.GetTag("em").Wrap(processedInner);
         }
     }
 }
