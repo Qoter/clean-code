@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Markdown.Infrastructure
 {
@@ -28,8 +26,9 @@ namespace Markdown.Infrastructure
         public string Read(int charsCount)
         {
             var startIndex = currentIndex;
-            currentIndex = currentIndex + charsCount;
-            return stringForRead.Substring(startIndex, currentIndex - startIndex);
+            currentIndex += charsCount;
+
+            return stringForRead.Substring(startIndex, Math.Min(charsCount, stringForRead.Length - startIndex));
         }
 
         public Context GetContext(string str)
@@ -39,7 +38,6 @@ namespace Markdown.Infrastructure
 
             return new Context(stringForRead.Substring(0, currentIndex), str, stringForRead.Substring(CurrentIndex + str.Length));
         }
-
 
         public char? GetCharOn(int index)
         {

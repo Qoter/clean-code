@@ -13,14 +13,6 @@ namespace Markdown.Infrastructure
         private readonly string str;
         private readonly string right;
 
-        //public Context(char? previousChar, string s, char? nextChar, string rightString)
-        //{
-        //    PreviousChar = previousChar;
-        //    String = s;
-        //    NextChar = nextChar;
-        //    this.rightString = rightString;
-        //}
-
         public Context(string left, string str, string right)
         {
             this.left = left;

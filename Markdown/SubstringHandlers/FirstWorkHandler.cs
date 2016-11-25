@@ -16,7 +16,7 @@ namespace Markdown.SubstringHandlers
         public string HandleSubstring(StringReader reader)
         {
             if (!CanHandle(reader))
-                throw new InvalidOperationException("No work readers");
+                throw new InvalidOperationException("No work handlers");
 
             return handlers
                 .First(handler => handler.CanHandle(reader))

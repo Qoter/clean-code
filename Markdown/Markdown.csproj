@@ -65,6 +65,7 @@
     <Compile Include="SubstringHandlers\CharHandler.cs" />
     <Compile Include="SubstringHandlers\EmphasisHandler.cs" />
     <Compile Include="SubstringHandlers\EscapeHandler.cs" />
+    <Compile Include="SubstringHandlers\EscapeSkipHandler.cs" />
     <Compile Include="SubstringHandlers\FirstWorkHandler.cs" />
     <Compile Include="SubstringHandlers\HandlersExtensions.cs" />
     <Compile Include="SubstringHandlers\ISubstringHandler.cs" />

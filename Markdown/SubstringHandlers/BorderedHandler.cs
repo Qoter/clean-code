@@ -33,7 +33,7 @@ namespace Markdown.SubstringHandlers
         private string ReadInnerText(StringReader reader)
         {
             SkipBorder(reader);
-            var innerText = new CharHandler().HandleUntil(IsOnClosedBorder, reader);
+            var innerText = new FirstWorkHandler(new EscapeSkipHandler(), new CharHandler()).HandleUntil(IsOnClosedBorder, reader);
             SkipBorder(reader);
 
             return innerText;

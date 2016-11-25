@@ -10,7 +10,7 @@ namespace Markdown.Tests.SubstringHandlers
     public class EmphasisHandler_should
     {
         [TestCase("_text_", ExpectedResult = "<em>text</em>", TestName = "Word inside underscore")]
-        [TestCase("_a\\_b_", ExpectedResult = "<em>a_b</em>", TestName = "Ignore escape symbols")]
+        [TestCase("_a\\_ b_", ExpectedResult = "<em>a_ b</em>", TestName = "Ignore escape symbols")]
         [TestCase("_a_a_", ExpectedResult = "<em>a_a</em>", TestName = "Ignore underscore inside word")]
         [TestCase("_b a_a b_", ExpectedResult = "<em>b a_a b</em>", TestName = "Ignore undercore inside word")]
         [TestCase("_a _bc_", ExpectedResult = "<em>a _bc</em>", TestName = "Ignore underscore after whitespace")]
