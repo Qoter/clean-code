@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Markdown.Infrastructure;
 using Markdown.SubstringHandlers;
 
@@ -14,7 +16,7 @@ namespace Markdown
             this.settings = settings;
         }
 
-        public string RenderLineToHtml(string markdownLine)
+        public string RenderParagraphToHtml(string paragraph)
         {
             var markdownHandler = new FirstWorkHandler(
                 new EscapeHandler(), 
@@ -23,13 +25,44 @@ namespace Markdown
                 new EmphasisHandler(settings.TagProvider),
                 new CharHandler());
 
-            var result = markdownHandler.HandleUntil(r => r.AtEndOfString, new StringReader(markdownLine));
+            var result = markdownHandler.HandleUntil(r => r.AtEndOfString, new StringReader(paragraph));
             return settings.TagProvider.GetTag("p").Wrap(result);
         }
 
         public IEnumerable<string> RenderAllLinesToHtml(IEnumerable<string> markdownLines)
         {
-            return markdownLines.Select(RenderLineToHtml);
+            return markdownLines.Select(RenderParagraphToHtml);
+        }
+
+        public string RenderTextToHtml(string markdownText)
+        {
+            var rednerdeParagraphs = SplitIntoParagraphs(markdownText)
+                .Where(p => !string.IsNullOrEmpty(p))
+                .Select(RenderParagraphToHtml);
+
+            return string.Join("", rednerdeParagraphs);
+        }
+
+        private IEnumerable<string> SplitIntoParagraphs(string markdownText)
+        {
+            var lines = markdownText.Split(new[] {"\r\n"}, StringSplitOptions.None);
+            var currentParagrapg = new StringBuilder();
+
+
+            for (var i = 0; i < lines.Length; i++)
+            {
+                if (lines[i].All(char.IsWhiteSpace))
+                {
+                    yield return currentParagrapg.ToString();
+                    currentParagrapg.Clear();
+                }
+                else
+                {
+                    currentParagrapg.Append(lines[i]);
+                }
+            }
+
+            yield return currentParagrapg.ToString();
         }
     }
 }

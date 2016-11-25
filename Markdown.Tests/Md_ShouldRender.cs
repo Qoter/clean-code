@@ -64,20 +64,33 @@ namespace Markdown.Tests
 
 
 
-    }
+        }
 
         [TestCaseSource(nameof(SpecifictaionCases))]
         public string RenderSpecification(string str)
         {
-            return new Md(MdSettings.Default).RenderLineToHtml(str);
+            return new Md(MdSettings.Default).RenderParagraphToHtml(str);
         }
+
+        [TestCase("abc", ExpectedResult = "<p>abc</p>", TestName = "Один параграф, если нет пустых строк")]
+        [TestCase("a\r\n\r\nb", ExpectedResult = "<p>a</p><p>b</p>", TestName = "Параграфы отделяются пустой строкой")]
+        [TestCase("a\r\n   \r\nb", ExpectedResult = "<p>a</p><p>b</p>", TestName = "Строка считается пустой если она пробельная")]
+        [TestCase("a\r\n\r\n\r\nb", ExpectedResult = "<p>a</p><p>b</p>", TestName = "Параграфы могут быть отделены несколькими пустыми строками")]
+        public string SplitOnParagraphs(string text)
+        {
+            var renderer = new Md(MdSettings.Default);
+
+            return renderer.RenderTextToHtml(text);
+        }
+
+
 
         [Test]
         public void AddBaseUrl_SettingsWithBaseUrl()
         {
             var md = new Md(new MdSettings(new Uri("http://test")));
 
-            var renderedLine = md.RenderLineToHtml("Ссылка от базового адреса [клац](test.html)");
+            var renderedLine = md.RenderParagraphToHtml("Ссылка от базового адреса [клац](test.html)");
 
             renderedLine.Should().Be("<p>Ссылка от базового адреса <a src='http://test/test.html'>клац</a></p>");
         }
@@ -87,7 +100,7 @@ namespace Markdown.Tests
         {
             var md = new Md(new MdSettings(cssClass: "test"));
 
-            var renderedLine = md.RenderLineToHtml("_все_ теги __должны__ иметь класс [test](ссылка)");
+            var renderedLine = md.RenderParagraphToHtml("_все_ теги __должны__ иметь класс [test](ссылка)");
 
             renderedLine.Should().Be("<p class='test'><em class='test'>все</em>" +
                                      " теги <strong class='test'>должны</strong> иметь класс " +
