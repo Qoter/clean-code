@@ -6,6 +6,7 @@ namespace Markdown.Client
 {
     public class Program
     {
+        private const string HtmlTemplate = "<html><head><meta charset='utf-8'></head><body>{0}</body></html>";
         private static void Main(string[] args)
         {
             var argsParser = new FluentCommandLineParser<MarkdownArguments>();
@@ -39,8 +40,9 @@ namespace Markdown.Client
         public static void RenderToHtml(MarkdownArguments arguments)
         {
             var mdText = File.ReadAllText(arguments.InputFileName);
-            var htmlLines = new Md(MdSettings.Default).RenderTextToHtml(mdText);
-            File.WriteAllText(arguments.OutputFileName, htmlLines);
+            var htmlBodyContent = new Md(MdSettings.Default).RenderTextToHtml(mdText);
+            var html = string.Format(HtmlTemplate, htmlBodyContent);
+            File.WriteAllText(arguments.OutputFileName, html);
         }
 
         public class MarkdownArguments

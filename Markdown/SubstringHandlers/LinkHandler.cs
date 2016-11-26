@@ -26,10 +26,10 @@ namespace Markdown.SubstringHandlers
                 new StrongHandler(settings),
                 new EmphasisHandler(settings),
                 new CharHandler());
-            var processedTitle = titleHandler.HandleUntil(r => r.AtEndOfString, new StringReader(linkName));
+            var processedTitle = titleHandler.HandleUntil(r => r.AtEndOfText, new StringReader(linkName));
 
             var linkTag = settings.TagProvider.GetTag("a");
-            linkTag.AddAttribute("src", PrependBaseUrl(linkUrl));
+            linkTag.AddAttribute("href", PrependBaseUrl(linkUrl));
 
             return linkTag.Wrap(processedTitle);
         }

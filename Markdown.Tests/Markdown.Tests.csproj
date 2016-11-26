@@ -104,6 +104,7 @@
     <Compile Include="SubstringHandlers\HeaderHandler_should.cs" />
     <Compile Include="SubstringHandlers\LineBreakHandler_should.cs" />
     <Compile Include="SubstringHandlers\LinkHandler_should.cs" />
+    <Compile Include="SubstringHandlers\NumberedListHandler_should.cs" />
     <Compile Include="SubstringHandlers\StrongHandler_should.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -37,7 +37,7 @@ namespace Markdown.SubstringHandlers
 
             reader.Read(currentHeaderSequence.Length);
             var headerText = new FirstWorkHandler(new EscapeSkipHandler(), new CharHandler()).HandleUntil(r => r.IsLocatedOn("\r\n"), reader);
-            var processedHeaderText = innerHandler.HandleUntil(r => r.AtEndOfString, new StringReader(headerText));
+            var processedHeaderText = innerHandler.HandleUntil(r => r.AtEndOfText, new StringReader(headerText));
 
             var headerSize = currentHeaderSequence.Length;
             var headerTag = settings.TagProvider.GetTag($"h{headerSize}");

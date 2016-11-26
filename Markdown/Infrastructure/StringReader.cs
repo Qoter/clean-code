@@ -9,7 +9,8 @@ namespace Markdown.Infrastructure
 
         public string ReadedString { get; }
 
-        public bool AtEndOfString => CurrentIndex >= ReadedString.Length;
+        public bool AtEndOfText => CurrentIndex >= ReadedString.Length;
+        public bool AtStartOfText => CurrentIndex == 0;
 
         public bool AtStartOfLine => CurrentIndex == 0 || (CurrentIndex > 1 && ReadedString.StartsWith("\r\n", CurrentIndex - 2));
 

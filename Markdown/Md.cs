@@ -17,6 +17,7 @@ namespace Markdown
 
             markdownHandler = new FirstWorkHandler(
                 new EscapeHandler(),
+                new NumberedListHandler(settings),
                 new CodeFragmentHandler(settings),
                 new LineBreakHandler(),
                 new HeaderHandler(settings),
@@ -37,7 +38,7 @@ namespace Markdown
 
         private string RenderParagraphToHtml(string paragraph)
         {
-            var result = markdownHandler.HandleUntil(r => r.AtEndOfString, new StringReader(paragraph));
+            var result = markdownHandler.HandleUntil(r => r.AtEndOfText, new StringReader(paragraph));
             return settings.TagProvider.GetTag("p").Wrap(result);
         }
 

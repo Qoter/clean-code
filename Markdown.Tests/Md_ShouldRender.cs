@@ -54,12 +54,12 @@ namespace Markdown.Tests
                                  .SetName("Выделение не заканчивается, если перед подчерком пробел");
 
             yield return new TestCaseData("[Должны поддерживаться ссылки](http://ссылка)")
-                                 .Returns("<p><a src='http://ссылка'>Должны поддерживаться ссылки</a></p>")
+                                 .Returns("<p><a href='http://ссылка'>Должны поддерживаться ссылки</a></p>")
                                  .SetName("Ссылки");
 
 
             yield return new TestCaseData("[внутри ссылок работает _курсив_ и __жирный__](http://ссылка)")
-                                 .Returns( "<p><a src='http://ссылка'>внутри ссылок работает <em>курсив</em> и <strong>жирный</strong></a></p>")
+                                 .Returns( "<p><a href='http://ссылка'>внутри ссылок работает <em>курсив</em> и <strong>жирный</strong></a></p>")
                                  .SetName("Ссылки с курсивным и жирным выделением");
 
             yield return new TestCaseData("Если между двух строк есть пустая строка\r\n\r\nто эти строки в разных параграфах")
@@ -82,6 +82,18 @@ namespace Markdown.Tests
             yield return new TestCaseData("    Вот такой кусок\r\n        Считается кодом\r\n            И сохраняет исходное форматирование")
                                  .Returns("<p><pre><code>Вот такой кусок\r\n    Считается кодом\r\n        И сохраняет исходное форматирование</code></pre></p>")
                                  .SetName("Фрагмент кода");
+
+            yield return new TestCaseData("1. Если строки помечать '1.'\r\n" +
+                                          "1. To каждая строка\r\n" +
+                                          "1. Это элемент нумерованного списка\r\n" +
+                                          "1. _Элементы_ могут __быть__ выделены другими [тегами]()")
+                                 .Returns("<p><ol>" +
+                                          "<li>Если строки помечать '1.'</li>" +
+                                          "<li>To каждая строка</li>" +
+                                          "<li>Это элемент нумерованного списка</li>" +
+                                          "<li><em>Элементы</em> могут <strong>быть</strong> выделены другими <a href=''>тегами</a></li>" +
+                                          "</ol></p>")
+                                 .SetName("Нумерованные списки");
 
 
         }
@@ -112,7 +124,7 @@ namespace Markdown.Tests
 
             renderedLine.Should().Be("<p class='test'><em class='test'>все</em>" +
                                      " теги <strong class='test'>должны</strong> иметь класс " +
-                                     "<a class='test' src='ссылка'>test</a></p>");
+                                     "<a class='test' href='ссылка'>test</a></p>");
         }
 
 
@@ -123,7 +135,7 @@ namespace Markdown.Tests
 
             var renderedLine = md.RenderTextToHtml("Ссылка от базового адреса [клац](test.html)");
 
-            renderedLine.Should().Be("<p>Ссылка от базового адреса <a src='http://test/test.html'>клац</a></p>");
+            renderedLine.Should().Be("<p>Ссылка от базового адреса <a href='http://test/test.html'>клац</a></p>");
         }
     }
 }

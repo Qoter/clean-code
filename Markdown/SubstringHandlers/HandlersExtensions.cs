@@ -11,7 +11,7 @@ namespace Markdown.SubstringHandlers
         {
             var substrings = new StringBuilder();
 
-            while (!reader.AtEndOfString && !isEndOfSubstring.Invoke(reader))
+            while (!reader.AtEndOfText && !isEndOfSubstring.Invoke(reader))
             {
                 substrings.Append(handler.HandleSubstring(reader));
             }
