@@ -12,6 +12,7 @@ namespace Markdown.SubstringHandlers
             this.settings = settings;
             innerTextHandler = new FirstWorkHandler(
                 new EscapeHandler(),
+                new LineBreakHandler(),
                 new LinkHandler(settings),
                 new CharHandler());
         }

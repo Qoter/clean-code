@@ -38,20 +38,20 @@ namespace Markdown.SubstringHandlers
         {
             if (!reader.IsLocatedOn("["))
                 return false;
-            var leftSquareIndex = FindRightBrace(reader.String, reader.CurrentIndex, '[', ']');
-            if (leftSquareIndex == -1 || leftSquareIndex == reader.String.Length - 1)
+            var leftSquareIndex = FindRightBrace(reader.ReadedString, reader.CurrentIndex, '[', ']');
+            if (leftSquareIndex == -1 || leftSquareIndex == reader.ReadedString.Length - 1)
                 return false;
 
-            if (reader.String[leftSquareIndex + 1] != '(')
+            if (reader.ReadedString[leftSquareIndex + 1] != '(')
                 return false;
-            var rightCircleIndex = FindRightBrace(reader.String, leftSquareIndex + 1, '(', ')');
+            var rightCircleIndex = FindRightBrace(reader.ReadedString, leftSquareIndex + 1, '(', ')');
 
             return rightCircleIndex != -1;
         }
 
         public string ReadInnerText(StringReader reader, char leftBrace, char rightBrace)
         {
-            var rightBraceIndex = FindRightBrace(reader.String, reader.CurrentIndex, leftBrace, rightBrace);
+            var rightBraceIndex = FindRightBrace(reader.ReadedString, reader.CurrentIndex, leftBrace, rightBrace);
 
             reader.Read(1);
             var innerText = reader.Read(rightBraceIndex - reader.CurrentIndex);

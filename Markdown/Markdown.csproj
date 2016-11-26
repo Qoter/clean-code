@@ -63,6 +63,7 @@
     <Compile Include="MdSettings.cs" />
     <Compile Include="SubstringHandlers\BorderedHandler.cs" />
     <Compile Include="SubstringHandlers\CharHandler.cs" />
+    <Compile Include="SubstringHandlers\CodeFragmentHandler.cs" />
     <Compile Include="SubstringHandlers\EmphasisHandler.cs" />
     <Compile Include="SubstringHandlers\EscapeHandler.cs" />
     <Compile Include="SubstringHandlers\EscapeSkipHandler.cs" />

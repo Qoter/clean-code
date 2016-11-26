@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using Markdown.Infrastructure;
 
 namespace Markdown.SubstringHandlers

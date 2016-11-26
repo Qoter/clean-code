@@ -97,6 +97,7 @@
     <Compile Include="Md_ShouldRender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubstringHandlers\CharHandler_should.cs" />
+    <Compile Include="SubstringHandlers\CodeFragmentHandler_should.cs" />
     <Compile Include="SubstringHandlers\EmphasisHandler_should.cs" />
     <Compile Include="SubstringHandlers\EscapeHandler_should.cs" />
     <Compile Include="SubstringHandlers\EscapeSkipHandler_should.cs" />

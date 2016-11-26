@@ -5,20 +5,22 @@ namespace Markdown.Infrastructure
 {
     public class StringReader
     {
-        public StringReader(string stringForRead)
-        {
-            String = stringForRead;
-        }
-
         public int CurrentIndex { get; private set; }
 
-        public string String { get; }
+        public string ReadedString { get; }
 
-        public bool AtEndOfString => CurrentIndex >= String.Length;
+        public bool AtEndOfString => CurrentIndex >= ReadedString.Length;
+
+        public bool AtStartOfLine => CurrentIndex == 0 || (CurrentIndex > 1 && ReadedString.StartsWith("\r\n", CurrentIndex - 2));
+
+        public StringReader(string readedString)
+        {
+            ReadedString = readedString;
+        }
 
         public bool IsLocatedOn(string str)
         {
-            return String.StartsWith(str, CurrentIndex);
+            return ReadedString.StartsWith(str, CurrentIndex);
         }
 
         public string Read(int charsCount)
@@ -26,7 +28,18 @@ namespace Markdown.Infrastructure
             var startIndex = CurrentIndex;
             CurrentIndex += charsCount;
 
-            return String.Substring(startIndex, Math.Min(charsCount, String.Length - startIndex));
+            return ReadedString.Substring(startIndex, Math.Min(charsCount, ReadedString.Length - startIndex));
+        }
+
+        public string ReadLine()
+        {
+            if (!AtStartOfLine)
+                throw new InvalidOperationException();
+
+            var endLineIndex = ReadedString.IndexOf("\r\n", CurrentIndex, StringComparison.Ordinal);
+            return endLineIndex == -1 
+                ? Read(ReadedString.Length - CurrentIndex) : 
+                Read(endLineIndex - CurrentIndex + "\r\n".Length);
         }
 
         public Context GetContext(string str)
@@ -34,23 +47,23 @@ namespace Markdown.Infrastructure
             if (!IsLocatedOn(str))
                 throw new ArgumentException();
 
-            return new Context(String.Substring(0, CurrentIndex), str, String.Substring(CurrentIndex + str.Length));
+            return new Context(ReadedString.Substring(0, CurrentIndex), str, ReadedString.Substring(CurrentIndex + str.Length));
         }
 
         public char? GetCharOn(int index)
         {
-            if (index < 0 || index >= String.Length)
+            if (index < 0 || index >= ReadedString.Length)
                 return null;
-            return String[index];
+            return ReadedString[index];
         }
 
         public IEnumerable<Context> FindContextsFor(string str)
         {
-            for (var index = CurrentIndex; index < String.Length; index++)
+            for (var index = CurrentIndex; index < ReadedString.Length; index++)
             {
-                if (String.StartsWith(str, index))
+                if (ReadedString.StartsWith(str, index))
                 {
-                    yield return new Context(String.Substring(0, index), str, String.Substring(index + str.Length));
+                    yield return new Context(ReadedString.Substring(0, index), str, ReadedString.Substring(index + str.Length));
                 }
             }
         }
