@@ -16,8 +16,8 @@ namespace Markdown
             this.settings = settings;
 
             markdownHandler = new FirstWorkHandler(
-                new CodeFragmentHandler(settings),
                 new EscapeHandler(),
+                new CodeFragmentHandler(settings),
                 new LineBreakHandler(),
                 new HeaderHandler(settings),
                 new LinkHandler(settings),

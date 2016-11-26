@@ -79,6 +79,11 @@ namespace Markdown.Tests
                                  .SetName("Заголовки");
 
 
+            yield return new TestCaseData("    Вот такой кусок\r\n        Считается кодом\r\n            И сохраняет исходное форматирование")
+                                 .Returns("<p><pre><code>Вот такой кусок\r\n    Считается кодом\r\n        И сохраняет исходное форматирование</code></pre></p>")
+                                 .SetName("Фрагмент кода");
+
+
         }
 
         [TestCaseSource(nameof(SpecifictaionCases))]
